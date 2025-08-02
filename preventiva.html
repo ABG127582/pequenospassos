@@ -1,0 +1,413 @@
+
+
+<div class="page-section" id="page-preventiva">
+    <div class="container">
+        <header class="preventiva-header">
+            <button id="preventivaBackButton" class="standard-button" style="display: none;"><i class="fas fa-arrow-left"></i> Voltar</button>
+            <h1 id="preventivaMainTitle">Saúde Preventiva</h1>
+        </header>
+        <main>
+            <!-- Menu Principal da Saúde Preventiva -->
+            <div id="preventivaMainMenu" class="preventiva-page active">
+                <div class="menu-grid">
+                    <div class="menu-item" data-target="preventivaVacinas" role="button" tabindex="0" aria-label="Acessar calendário de vacinação">
+                        <span class="icon"><i class="fas fa-syringe"></i></span>
+                        <h3>Vacinação</h3>
+                    </div>
+                    <div class="menu-item" data-target="preventivaExames" role="button" tabindex="0" aria-label="Acessar indicadores de saúde e exames">
+                        <span class="icon"><i class="fas fa-stethoscope"></i></span>
+                        <h3>Exames e Indicadores</h3>
+                    </div>
+                    <div class="menu-item" data-target="preventivaDiagnosticos" role="button" tabindex="0" aria-label="Acessar diagnósticos e fatores de risco">
+                        <span class="icon"><i class="fas fa-file-medical-alt"></i></span>
+                        <h3>Diagnósticos e Riscos</h3>
+                    </div>
+                    <div class="menu-item" data-target="preventivaMetas" role="button" tabindex="0" aria-label="Acessar metas de saúde preventiva">
+                        <span class="icon"><i class="fas fa-bullseye"></i></span>
+                        <h3>Metas Preventivas</h3>
+                    </div>
+                     <div class="menu-item" data-target="preventivaHistorico" role="button" tabindex="0" aria-label="Acessar histórico de indicadores">
+                        <span class="icon"><i class="fas fa-history"></i></span>
+                        <h3>Histórico de Indicadores</h3>
+                    </div>
+                     <div class="menu-item" data-target="preventivaRecursos" role="button" tabindex="0" aria-label="Acessar recursos úteis de saúde preventiva">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <h3>Recursos</h3>
+                    </div>
+                </div>
+            </div>
+             <!-- Subpágina: Metas Preventivas -->
+            <div id="preventivaMetas" class="preventiva-page">
+                <section class="form-section content-section">
+                    <h2 class="section-title">Objetivos de Saúde Preventiva</h2>
+                    <ul id="preventiva-metas-list" class="lista-planejamento"></ul>
+                    <form id="preventiva-metas-form">
+                        <label for="preventiva-meta-input">Novo Objetivo Preventivo:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="preventiva-meta-input" required placeholder="Ex: Agendar check-up anual, Realizar autoexame mensal">
+                            <button type="button" id="preventiva-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                        </div>
+                        <button type="submit" class="standard-button">Adicionar Objetivo</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Subpágina: Vacinação -->
+            <div id="preventivaVacinas" class="preventiva-page">
+                <section class="content-section">
+                    <h2 class="section-title">Calendário de Vacinação</h2>
+                    <div class="table-responsive">
+                        <table id="tabela-vacinas">
+                            <caption>Controle de Vacinação Adulto</caption>
+                            <thead>
+                                <tr>
+                                    <th>Vacina</th>
+                                    <th>Última Dose</th>
+                                    <th>Próxima Dose</th>
+                                    <th>Status</th>
+                                    <th>Informações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-vaccine-id="tetano"><td>Tétano e Difteria (dT/dTpa)</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Tétano e Difteria"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="tetanoInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="hepatite-b"><td>Hepatite B</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Hepatite B"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="hepatite-bInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="influenza"><td>Influenza (Gripe)</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Influenza"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="influenzaInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="triplice-viral"><td>Tríplice Viral (SCR)</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Tríplice Viral"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="triplice-viralInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="febre-amarela"><td>Febre Amarela</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Febre Amarela"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="febre-amarelaInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="hpv"><td>HPV</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de HPV"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="hpvInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="pneumococica"><td>Pneumocócica</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Pneumocócica"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="pneumococicaInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="meningococica"><td>Meningocócica</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Meningocócica"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="meningococicaInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="varicela"><td>Varicela (Catapora)</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Varicela"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="varicelaInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="hepatite-a"><td>Hepatite A</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Hepatite A"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="hepatite-aInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="herpes-zoster"><td>Herpes Zóster</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Herpes Zóster"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="herpes-zosterInfo">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="covid-19"><td>COVID-19</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de COVID-19"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="covid-19Info">Detalhes</a></td></tr>
+                                <tr data-vaccine-id="dengue"><td>Dengue</td><td><input type="date" class="vaccine-last-dose input-table-date" aria-label="Data da última dose de Dengue"></td><td class="vaccine-next-dose">-</td><td class="vaccine-status status-pending">Pendente</td><td><a href="#" class="vaccine-info-link" data-info-id="dengueInfo">Detalhes</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Subpágina: Exames e Indicadores -->
+            <div id="preventivaExames" class="preventiva-page">
+                <section class="content-section">
+                    <h2 class="section-title">Indicadores de Saúde e Exames</h2>
+                    <div class="indicator-grid">
+                        <!-- Glicemia -->
+                        <div id="indicator-card-glicemia" class="indicator-card" data-indicator-id="glicemia">
+                            <h3>Glicemia em Jejum (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="glicemia-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="90"></div>
+                            <div class="date-group"><label for="glicemia-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div> <div class="indicator-labels"><span>70</span><span>99</span><span>126+</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Glicemia</button>
+                        </div>
+                        <!-- HDL -->
+                        <div id="indicator-card-hdl" class="indicator-card" data-indicator-id="hdl">
+                            <h3>HDL Colesterol (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="hdl-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="50"></div>
+                            <div class="date-group"><label for="hdl-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar reversed-gradient"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;40</span><span>40-60</span><span>&gt;60</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar HDL</button>
+                        </div>
+                        <!-- LDL -->
+                        <div id="indicator-card-ldl" class="indicator-card" data-indicator-id="ldl">
+                            <h3>LDL Colesterol (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="ldl-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="100"></div>
+                            <div class="date-group"><label for="ldl-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;100</span><span>100-129</span><span>&gt;130</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar LDL</button>
+                        </div>
+                         <!-- Colesterol Total -->
+                        <div id="indicator-card-colesterol" class="indicator-card" data-indicator-id="colesterol">
+                            <h3>Colesterol Total (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="colesterol-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="180"></div>
+                            <div class="date-group"><label for="colesterol-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;200</span><span>200-239</span><span>&gt;240</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Colesterol Total</button>
+                        </div>
+                        <!-- Triglicerídeos -->
+                        <div id="indicator-card-triglicerideos" class="indicator-card" data-indicator-id="triglicerideos">
+                            <h3>Triglicerídeos (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="triglicerideos-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="130"></div>
+                            <div class="date-group"><label for="triglicerideos-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;150</span><span>150-199</span><span>&gt;200</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Triglicerídeos</button>
+                        </div>
+                        <!-- Vitamina D -->
+                        <div id="indicator-card-vitd" class="indicator-card" data-indicator-id="vitd">
+                            <h3>Vitamina D (ng/mL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="vitd-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="40"></div>
+                            <div class="date-group"><label for="vitd-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar reversed-gradient"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;20</span><span>20-30</span><span>&gt;30</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Vitamina D</button>
+                        </div>
+                        <!-- TSH -->
+                        <div id="indicator-card-tsh" class="indicator-card" data-indicator-id="tsh">
+                            <h3>TSH (µUI/mL)</h3>
+                             <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="tsh-value">Valor:</label><input type="number" step="0.01" class="indicator-value" placeholder="2.5"></div>
+                            <div class="date-group"><label for="tsh-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>0.4</span><span>2.5</span><span>4.5</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar TSH</button>
+                        </div>
+                         <!-- Creatinina -->
+                        <div id="indicator-card-creatinina" class="indicator-card" data-indicator-id="creatinina">
+                            <h3>Creatinina (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="creatinina-value">Valor:</label><input type="number" step="0.01" class="indicator-value" placeholder="0.9"></div>
+                            <div class="date-group"><label for="creatinina-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>0.6</span><span>1.0</span><span>1.3</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Creatinina</button>
+                        </div>
+                        <!-- Ácido Úrico -->
+                        <div id="indicator-card-acidourico" class="indicator-card" data-indicator-id="acidourico">
+                            <h3>Ácido Úrico (mg/dL)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="acidourico-value">Valor:</label><input type="number" step="0.1" class="indicator-value" placeholder="5.0"></div>
+                            <div class="date-group"><label for="acidourico-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>2.5</span><span>5.0</span><span>7.0</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Ácido Úrico</button>
+                        </div>
+                        <!-- PCR -->
+                        <div id="indicator-card-pcr" class="indicator-card" data-indicator-id="pcr">
+                            <h3>PCR Ultrassensível (mg/L)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="pcr-value">Valor:</label><input type="number" step="0.1" class="indicator-value" placeholder="1.0"></div>
+                            <div class="date-group"><label for="pcr-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;1.0</span><span>1-3</span><span>&gt;3.0</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar PCR</button>
+                        </div>
+                         <!-- Ferritina -->
+                        <div id="indicator-card-ferritina" class="indicator-card" data-indicator-id="ferritina">
+                            <h3>Ferritina (ng/mL)</h3>
+                             <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="ferritina-value">Valor:</label><input type="number" step="1" class="indicator-value" placeholder="100"></div>
+                            <div class="date-group"><label for="ferritina-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar reversed-gradient"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;30</span><span>30-300</span><span>&gt;300</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Ferritina</button>
+                        </div>
+                        <!-- Vitamina B12 -->
+                        <div id="indicator-card-b12" class="indicator-card" data-indicator-id="b12">
+                            <h3>Vitamina B12 (pg/mL)</h3>
+                             <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="b12-value">Valor:</label><input type="number" step="10" class="indicator-value" placeholder="500"></div>
+                            <div class="date-group"><label for="b12-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar reversed-gradient"><span class="marker"></span></div><div class="indicator-labels"><span>&lt;200</span><span>200-900</span><span>&gt;900</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Vitamina B12</button>
+                        </div>
+                        <!-- Gordura Corporal (Bioimpedância) -->
+                        <div id="indicator-card-gordura_bio" class="indicator-card" data-indicator-id="gordura_bio">
+                            <h3>Gordura Corporal (Bioimpedância) (%)</h3>
+                            <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="gordura_bio-value">Valor:</label><input type="number" step="0.1" class="indicator-value" placeholder="20"></div>
+                            <div class="date-group"><label for="gordura_bio-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar"><span class="marker"></span></div><div class="indicator-labels"><span>Ótimo</span><span>Bom</span><span>Elevado</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Gordura Corporal</button>
+                        </div>
+                        <!-- Massa Magra (Bioimpedância) -->
+                        <div id="indicator-card-massamagra_bio" class="indicator-card" data-indicator-id="massamagra_bio">
+                            <h3>Massa Magra (Bioimpedância) (kg)</h3>
+                             <div class="overdue-warning" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Exame há mais de 1 ano. Considere refazer.</div>
+                            <div class="input-group"><label for="massamagra_bio-value">Valor:</label><input type="number" step="0.1" class="indicator-value" placeholder="55"></div>
+                            <div class="date-group"><label for="massamagra_bio-date">Data:</label><input type="date" class="indicator-date"></div>
+                            <div class="indicator-bar-container"><div class="indicator-bar reversed-gradient"><span class="marker"></span></div><div class="indicator-labels"><span>Baixo</span><span>Adequado</span><span>Alto</span></div></div>
+                            <p class="interpretation"></p><p class="suggestion"></p>
+                            <button class="update-button standard-button">Salvar Massa Magra</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Subpágina: Diagnósticos e Riscos -->
+            <div id="preventivaDiagnosticos" class="preventiva-page">
+                <section class="content-section">
+                    <h2 class="section-title">Diagnósticos Prévios e Fatores de Risco</h2>
+                    <p>Marque os diagnósticos que você possui e adicione informações relevantes. Isso ajuda a personalizar seu acompanhamento.</p>
+                    
+                    <div class="risk-item" data-diagnostic-id="hipertensao">
+                        <span class="toggle-switch">
+                            <input type="checkbox" id="hipertensaoToggle" class="diagnostic-toggle">
+                            <label for="hipertensaoToggle"></label>
+                        </span>
+                        <label for="hipertensaoToggle">Hipertensão Arterial</label>
+                        <div class="risk-details">
+                            <label for="hipertensaoDate">Data do Diagnóstico:</label><input type="date" class="diagnostic-date">
+                            <label for="hipertensaoMedication">Medicação em Uso:</label><input type="text" class="diagnostic-medication" placeholder="Ex: Losartana 50mg">
+                            <label for="hipertensaoNotes">Observações:</label><textarea class="diagnostic-notes" placeholder="Ex: Controlada com medicação, acompanhamento regular."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="risk-item" data-diagnostic-id="diabetes">
+                        <span class="toggle-switch">
+                            <input type="checkbox" id="diabetesToggle" class="diagnostic-toggle">
+                            <label for="diabetesToggle"></label>
+                        </span>
+                        <label for="diabetesToggle">Diabetes Mellitus</label>
+                        <div class="risk-details">
+                            <label for="diabetesType">Tipo (1, 2, Gestacional):</label><input type="text" class="diagnostic-type" placeholder="Ex: Tipo 2">
+                            <label for="diabetesDate">Data do Diagnóstico:</label><input type="date" class="diagnostic-date">
+                            <label for="diabetesMedication">Medicação/Tratamento:</label><input type="text" class="diagnostic-medication" placeholder="Ex: Metformina, Insulina">
+                            <label for="diabetesNotes">Observações:</label><textarea class="diagnostic-notes" placeholder="Ex: Controle glicêmico, dieta específica."></textarea>
+                        </div>
+                    </div>
+                     <div class="risk-item" data-diagnostic-id="dislipidemia">
+                        <span class="toggle-switch">
+                            <input type="checkbox" id="dislipidemiaToggle" class="diagnostic-toggle">
+                            <label for="dislipidemiaToggle"></label>
+                        </span>
+                        <label for="dislipidemiaToggle">Dislipidemia (Colesterol/Triglicerídeos Alto)</label>
+                        <div class="risk-details">
+                            <label for="dislipidemiaDate">Data do Diagnóstico:</label><input type="date" class="diagnostic-date">
+                            <label for="dislipidemiaMedication">Medicação em Uso:</label><input type="text" class="diagnostic-medication" placeholder="Ex: Sinvastatina 20mg">
+                             <label for="dislipidemiaNotes">Observações:</label><textarea class="diagnostic-notes" placeholder="Ex: Acompanhamento lipídico a cada 6 meses."></textarea>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px; font-size: 1.2rem; color: var(--color-preventiva);">Exames de Rastreamento</h3>
+                    
+                    <div class="risk-item" data-diagnostic-id="exame-prostata">
+                        <span class="toggle-switch"><input type="checkbox" id="exameProstataToggle" class="diagnostic-toggle"><label for="exameProstataToggle"></label></span>
+                        <label for="exameProstataToggle">Exame de Próstata (PSA/Toque)</label>
+                        <div class="risk-details"><label for="prostataDate">Data do Último Exame:</label><input type="date" class="diagnostic-date"><label for="prostataNotes">Observações:</label><textarea class="diagnostic-notes" placeholder="Ex: Resultado normal, próximo em 2 anos."></textarea></div>
+                    </div>
+                    
+                    <div class="risk-item" data-diagnostic-id="mamografia">
+                        <span class="toggle-switch"><input type="checkbox" id="mamografiaToggle" class="diagnostic-toggle"><label for="mamografiaToggle"></label></span>
+                        <label for="mamografiaToggle">Mamografia</label>
+                        <div class="risk-details">
+                             <label for="mamografiaDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                             <label for="mamografiaType">Resultado (BIRADS):</label><input type="text" class="diagnostic-type" placeholder="Ex: BIRADS 1">
+                             <label for="mamografiaSeverity">Recomendação:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Repetir em 1 ano">
+                        </div>
+                    </div>
+
+                    <div class="risk-item" data-diagnostic-id="papanicolau">
+                        <span class="toggle-switch"><input type="checkbox" id="papanicolauToggle" class="diagnostic-toggle"><label for="papanicolauToggle"></label></span>
+                        <label for="papanicolauToggle">Papanicolau (Preventivo)</label>
+                        <div class="risk-details">
+                            <label for="papanicolauDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                            <label for="papanicolauSeverity">Resultado:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Negativo para malignidade">
+                        </div>
+                    </div>
+                     <div class="risk-item" data-diagnostic-id="colonoscopia">
+                        <span class="toggle-switch"><input type="checkbox" id="colonoscopiaToggle" class="diagnostic-toggle"><label for="colonoscopiaToggle"></label></span>
+                        <label for="colonoscopiaToggle">Colonoscopia</label>
+                        <div class="risk-details">
+                            <label for="colonoscopiaDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                            <label for="colonoscopiaType">Achados:</label><input type="text" class="diagnostic-type" placeholder="Ex: Pólipos removidos">
+                             <label for="colonoscopiaSeverity">Recomendação:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Repetir em 5 anos">
+                        </div>
+                    </div>
+                    
+                     <div class="risk-item" data-diagnostic-id="dermatologico">
+                        <span class="toggle-switch"><input type="checkbox" id="dermatologicoToggle" class="diagnostic-toggle"><label for="dermatologicoToggle"></label></span>
+                        <label for="dermatologicoToggle">Exame Dermatológico (Pele)</label>
+                        <div class="risk-details">
+                            <label for="dermatologicoDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                             <label for="dermatologicoSeverity">Observações:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Mapeamento de nevos, sem alterações.">
+                        </div>
+                    </div>
+
+                    <div class="risk-item" data-diagnostic-id="oftalmologico">
+                        <span class="toggle-switch"><input type="checkbox" id="oftalmologicoToggle" class="diagnostic-toggle"><label for="oftalmologicoToggle"></label></span>
+                        <label for="oftalmologicoToggle">Exame Oftalmológico (Visão)</label>
+                        <div class="risk-details">
+                            <label for="oftalmologicoDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                            <label for="oftalmologicoType">Diagnóstico:</label><input type="text" class="diagnostic-type" placeholder="Ex: Miopia, Astigmatismo">
+                        </div>
+                    </div>
+
+                    <div class="risk-item" data-diagnostic-id="odontologico">
+                        <span class="toggle-switch"><input type="checkbox" id="odontologicoToggle" class="diagnostic-toggle"><label for="odontologicoToggle"></label></span>
+                        <label for="odontologicoToggle">Check-up Odontológico</label>
+                        <div class="risk-details">
+                             <label for="odontologicoDate">Data da Última Consulta:</label><input type="date" class="diagnostic-date">
+                             <label for="odontologicoType">Tratamentos Realizados:</label><input type="text" class="diagnostic-type" placeholder="Ex: Limpeza, restauração">
+                             <label for="odontologicoSeverity">Recomendação:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Retorno em 6 meses">
+                        </div>
+                    </div>
+
+                    <div class="risk-item" data-diagnostic-id="densitometria">
+                        <span class="toggle-switch"><input type="checkbox" id="densitometriaToggle" class="diagnostic-toggle"><label for="densitometriaToggle"></label></span>
+                        <label for="densitometriaToggle">Densitometria Óssea</label>
+                        <div class="risk-details">
+                            <label for="densitometriaDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                            <label for="densitometriaSeverity">Resultado:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Osteopenia, Normal">
+                        </div>
+                    </div>
+                    <div class="risk-item" data-diagnostic-id="audiometria">
+                        <span class="toggle-switch"><input type="checkbox" id="audiometriaToggle" class="diagnostic-toggle"><label for="audiometriaToggle"></label></span>
+                        <label for="audiometriaToggle">Audiometria</label>
+                        <div class="risk-details">
+                             <label for="audiometriaDate">Data do Último Exame:</label><input type="date" class="diagnostic-date">
+                             <label for="audiometriaSeverity">Resultado:</label><input type="text" class="diagnostic-severity" placeholder="Ex: Audição normal">
+                        </div>
+                    </div>
+
+                    <button id="saveDiagnosticosButton" class="standard-button" style="margin-top: 20px;">Salvar Diagnósticos e Riscos</button>
+                </section>
+            </div>
+            
+            <!-- Subpágina: Histórico de Indicadores -->
+            <div id="preventivaHistorico" class="preventiva-page">
+                <section class="content-section">
+                     <h2 class="section-title">Histórico de Indicadores</h2>
+                     <div class="table-responsive">
+                         <table id="tabela-historico-indicadores">
+                            <caption>Últimos 50 registros de indicadores de saúde.</caption>
+                            <thead>
+                                <tr>
+                                    <th>Indicador</th>
+                                    <th>Data do Exame</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historicoIndicadoresBody">
+                                <!-- Linhas serão adicionadas aqui via JS -->
+                            </tbody>
+                         </table>
+                     </div>
+                </section>
+            </div>
+
+            <!-- Subpágina: Recursos -->
+            <div id="preventivaRecursos" class="preventiva-page">
+                <section class="resources-section content-section">
+                    <h2 class="section-title">Recursos Úteis para Saúde Preventiva</h2>
+                    <ul class="recursos-list">
+                        <li><a href="https://www.gov.br/saude/pt-br/vacinacao" target="_blank" rel="noopener noreferrer">Calendário Nacional de Vacinação (Ministério da Saúde)</a></li>
+                        <li><a href="https://www.inca.gov.br/prevenir-o-cancer" target="_blank" rel="noopener noreferrer">Prevenção do Câncer (INCA)</a></li>
+                        <li><a href="http://prevencao.cardiol.br/" target="_blank" rel="noopener noreferrer">Prevenção Cardiovascular (Sociedade Brasileira de Cardiologia)</a></li>
+                        <li><a href="https://drauziovarella.uol.com.br/" target="_blank" rel="noopener noreferrer">Portal Drauzio Varella (Informações de Saúde)</a></li>
+                    </ul>
+                </section>
+            </div>
+
+
+        </main>
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" style="display: none;"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+        <footer><p>© 2025 Pequenos Passos para uma Vida Extraordinária</p></footer>
+    </div>
+</div>
