@@ -1,5 +1,6 @@
 
 
+import './index.css';
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
 declare var DOMPurify: any;
