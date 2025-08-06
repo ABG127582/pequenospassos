@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
       // IMPORTANTE: Substitua 'repository-name' pelo nome do seu repositório no GitHub.
       // Exemplo: se o seu repositório for 'https://github.com/user/my-app',
       // o 'base' deve ser '/my-app/'.
-      base: '/repository-name/',
+      base: '/pequenospassos/',
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
