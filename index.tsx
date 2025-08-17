@@ -167,6 +167,12 @@ function startFieldListening(targetInputId: string, micButtonId: string) {
         return;
     }
 
+    // Speech Recognition API is only available in secure contexts (HTTPS or localhost)
+    if (!window.isSecureContext) {
+        window.showToast("O reconhecimento de voz requer uma conexão segura (HTTPS).", "error");
+        return;
+    }
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
         window.showToast("Reconhecimento de voz não é suportado neste navegador.", "warning");
