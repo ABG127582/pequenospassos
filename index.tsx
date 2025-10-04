@@ -554,9 +554,6 @@ const pageHierarchy: { [key: string]: { parent: string | null; title: string } }
     'financeira': { parent: 'inicio', title: 'Saúde Financeira' },
     'leitura-guia-financeira': { parent: 'financeira', title: 'Guia de Leitura' },
     'planejamento-trocas': { parent: 'financeira', title: 'Planejamento de Trocas de Bens' },
-    'pdca-fisica-cardio': { parent: 'fisica', title: 'Benefícios cardiorrespiratórios (Resistencia)' },
-    'pdca-fisica-massa': { parent: 'fisica', title: 'Ganho de massa muscular (Força)' },
-    'pdca-fisica-mobilidade': { parent: 'fisica', title: 'Mobilidade' },
     'familiar': { parent: 'inicio', title: 'Saúde Familiar' },
     'leitura-guia-familiar': { parent: 'familiar', title: 'Guia de Leitura' },
     'profissional': { parent: 'inicio', title: 'Saúde Profissional' },
@@ -863,7 +860,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW, SIMPLIFIED GLOBAL NAVIGATION HANDLER (Bubbling Phase) ---
     document.body.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
+        // Ensure the click target is an element before proceeding.
+        if (!(e.target instanceof HTMLElement)) return;
+        const target = e.target;
 
         // If TTS selection mode is active, its specific handler (on #main-content) runs first.
         // This body handler will only catch events that bubble up (i.e., navigation clicks).
@@ -875,8 +874,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Handle standard page navigation
-        const pageLink = target.closest<HTMLElement>('button[data-page], a[data-page]');
+        // Handle standard page navigation, but ignore links meant to open in a new tab
+        const pageLink = target.closest<HTMLElement>('button[data-page], a[data-page]:not([target="_blank"])');
         if (pageLink && pageLink.dataset.page) {
             e.preventDefault();
             ttsReader.stop(); // Stop any ongoing speech before navigating
@@ -1013,10 +1012,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         // Highlight effect for better UX
                         const pageContainer = document.querySelector('#page-content-wrapper > .page-section, #page-content-wrapper > .page-container');
-                        const sectionColorRgb = (pageContainer && getComputedStyle(pageContainer).getPropertyValue('--section-color-rgb').trim()) || '0, 123, 255';
+                        const sectionColorRgb = pageContainer ? getComputedStyle(pageContainer).getPropertyValue('--section-color-rgb').trim() : '0, 123, 255';
                         
                         element.style.transition = 'background-color 0.7s ease';
-                        element.style.backgroundColor = `rgba(${sectionColorRgb}, 0.1)`;
+                        element.style.backgroundColor = `rgba(${sectionColorRgb || '0, 123, 255'}, 0.1)`;
                         setTimeout(() => {
                             element.style.backgroundColor = '';
                         }, 1500);
