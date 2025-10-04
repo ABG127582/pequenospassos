@@ -1,0 +1,92 @@
+
+
+<div class="page-section" id="page-familiar">
+    <div class="container">
+        <header>
+            <h1>Planejamento de Saúde Familiar</h1>
+        </header>
+        <main>
+             <!-- Card 1: PLAN -->
+            <section class="mind-map-section content-section">
+                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Fundações dos Relacionamentos</summary>
+                    <ul>
+                        <li><details><summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Teoria do Apego (Bowlby)</summary><ul><li>Compreender estilos (Seguro, Ansioso, Evitativo)</li><li>Reconhecer a transmissão intergeracional</li></ul></details></li>
+                        <li><details><summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Teoria dos Sistemas Familiares (Bowen)</summary><ul><li>Diferenciação do Self (Autonomia Emocional)</li><li>Evitar Triângulos Emocionais</li></ul></details></li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Comunicação e Conflito</summary>
+                    <ul>
+                        <li><a href="#pdca-familiar-escuta-ativa" class="mind-map-button">Praticar Escuta Ativa e Empática [PDCA]</a></li>
+                        <li><a href="#pdca-familiar-dialogo-aberto" class="mind-map-button">Usar Comunicação Não-Violenta (CNV) [PDCA]</a></li>
+                        <li><details><summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Método Gottman: Evitar os 4 Cavaleiros</summary><ul><li>Crítica -> Usar Começo Suave ("Eu sinto...")</li><li>Desprezo -> Construir Cultura de Apreciação</li><li>Defensividade -> Assumir Responsabilidade</li><li>Obstrucionismo -> Realizar Pausa Fisiológica</li></ul></details></li>
+                        <li>Perdão (Princípio Epicurista/Estoico)</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Nutrindo a Conexão</summary>
+                    <ul>
+                        <li><a href="#pdca-familiar-tempo-qualidade" class="mind-map-button">Criar Rituais de Tempo de Qualidade [PDCA]</a></li>
+                        <li><a href="#pdca-familiar-linguagens-amor" class="mind-map-button">Praticar as 5 Linguagens do "TE AMO" [PDCA]</a></li>
+                        <li>Aumentar a Razão Mágica (5 interações positivas para 1 negativa)</li>
+                    </ul>
+                </details>
+                <div style="margin-top: 25px;">
+                    <button class="standard-button" data-page="leitura-guia-familiar">
+                        <i class="fas fa-book-open"></i> Aprofundamento
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Card 2: DO -->
+            <section class="content-section">
+                <h2 class="section-title">Do</h2>
+                 <div id="metas-familiares" class="form-section">
+                    <ul id="familiar-metas-list" class="lista-planejamento"></ul>
+                    <form id="familiar-metas-form" style="margin-top: 20px;">
+                        <div class="input-wrapper">
+                            <input type="text" id="familiar-meta-input" required placeholder="Adicionar nova rotina personalizada...">
+                            <button type="button" id="familiar-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                        </div>
+                        <button type="submit" class="standard-button">Adicionar</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Card 3: CHECK -->
+            <section id="familiar-reflection-section" class="content-section reflection-section">
+                <h2 class="section-title">Check / Reflexão</h2>
+                <p>Reflita sobre suas interações e a saúde dos seus laços familiares hoje.</p>
+                
+                <div class="form-group">
+                    <label for="reflection-interacoes">Qualidade das Interações</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-interacoes" data-key="qualidadeInteracoes" rows="3" placeholder="Hoje, minhas conversas com a família foram..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-interacoes" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-conexao">Momentos de Conexão</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-conexao" data-key="momentosConexao" rows="3" placeholder="Houve um momento especial de conexão hoje quando..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-conexao" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-conflitos">Gestão de Conflitos</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-conflitos" data-key="gestaoConflitos" rows="3" placeholder="Lidei com um desacordo de forma... Poderia ter melhorado em..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-conflitos" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+    </div>
+</div>

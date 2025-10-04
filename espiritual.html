@@ -1,0 +1,99 @@
+
+
+<div class="page-section" id="page-espiritual">
+    <div class="container">
+        <header>
+            <h1>Planejamento de Saúde Espiritual</h1>
+        </header>
+        <main>
+            <!-- Card 1: PLAN -->
+            <section class="mind-map-section content-section">
+                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Encontrando seu Norte (Propósito e Significado)</summary>
+                    <ul>
+                        <li><details><summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Logoterapia de Viktor Frankl</summary><ul><li>Sentido através da Criação (trabalho, arte)</li><li>Sentido através da Experiência (amor, beleza)</li><li>Sentido através da Atitude perante o sofrimento</li></ul></details></li>
+                        <li><a href="#pdca-espiritual-valores" class="mind-map-button">Reflexão sobre Valores Pessoais [PDCA]</a></li>
+                        <li><a href="#pdca-espiritual-intencoes" class="mind-map-button">Definir Claras Intenções Diárias [PDCA]</a></li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Calibrando a Bússola (Práticas Contemplativas)</summary>
+                    <ul>
+                        <li><a href="#pdca-espiritual-meditacao" class="mind-map-button">Atenção Plena (Mindfulness) [PDCA]</a></li>
+                        <li><a href="#pdca-espiritual-gratidao" class="mind-map-button">Prática da Gratidão (Epicurismo) [PDCA]</a></li>
+                        <li><a href="#pdca-espiritual-compaixao" class="mind-map-button">Meditação da Bondade Amorosa (LKM) [PDCA]</a></li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Expandindo o Mapa (Conexão e Transcendência)</summary>
+                    <ul>
+                        <li><a href="#pdca-espiritual-awe" class="mind-map-button">Busca pela Admiração (Awe) na natureza ou na arte [PDCA]</a></li>
+                        <li><a href="#pdca-espiritual-servico" class="mind-map-button">Servir à Comunidade (Altruísmo) [PDCA]</a></li>
+                        <li><a href="#pdca-espiritual-filosofia" class="mind-map-button">Exploração de Crenças e Filosofias Pessoais [PDCA]</a></li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>A Ciência da Espiritualidade</summary>
+                    <ul>
+                        <li>Distinção entre Espiritualidade e Religiosidade</li>
+                        <li>Neurociência da Experiência Espiritual (Circuito da Transcendência)</li>
+                    </ul>
+                </details>
+                <div style="margin-top: 25px;">
+                    <button class="standard-button" data-page="leitura-guia-espiritual">
+                        <i class="fas fa-book-open"></i> Aprofundamento
+                    </button>
+                </div>
+            </section>
+
+            <!-- Card 2: DO -->
+            <section class="content-section">
+                <h2 class="section-title">Do</h2>
+                <div id="metas-espirituais" class="form-section">
+                    <ul id="espiritual-metas-list" class="lista-planejamento"></ul>
+                    <form id="espiritual-metas-form" style="margin-top: 20px;">
+                        <div class="input-wrapper">
+                            <input type="text" id="espiritual-meta-input" required placeholder="Adicionar nova rotina personalizada...">
+                            <button type="button" id="espiritual-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                        </div>
+                        <button type="submit" class="standard-button">Adicionar</button>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Card 3: CHECK -->
+            <section id="espiritual-reflection-section" class="content-section reflection-section">
+                <h2 class="section-title">Check / Reflexão</h2>
+                <p>Reflita sobre sua saúde espiritual hoje. Como você se conectou com seu propósito e seus valores?</p>
+                
+                <div class="form-group">
+                    <label for="reflection-proposito">Conexão com Propósito</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-proposito" data-key="conexaoProposito" rows="3" placeholder="Hoje, eu me senti conectado(a) com meu propósito quando..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-proposito" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-praticas">Práticas Contemplativas</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-praticas" data-key="praticasContemplativas" rows="3" placeholder="Minha prática de meditação/reflexão hoje foi..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-praticas" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-gratidao">Momentos de Gratidão e Admiração</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-gratidao" data-key="momentosGratidao" rows="3" placeholder="Um momento de admiração (awe) ou gratidão que vivenciei hoje foi..."></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-gratidao" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+    </div>
+</div>
