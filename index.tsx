@@ -860,9 +860,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW, SIMPLIFIED GLOBAL NAVIGATION HANDLER (Bubbling Phase) ---
     document.body.addEventListener('click', (e) => {
-        // Ensure the click target is an element before proceeding.
-        if (!(e.target instanceof HTMLElement)) return;
-        const target = e.target;
+        const target = e.target as HTMLElement;
 
         // If TTS selection mode is active, its specific handler (on #main-content) runs first.
         // This body handler will only catch events that bubble up (i.e., navigation clicks).
@@ -874,8 +872,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Handle standard page navigation, but ignore links meant to open in a new tab
-        const pageLink = target.closest<HTMLElement>('button[data-page], a[data-page]:not([target="_blank"])');
+        // Handle standard page navigation
+        const pageLink = target.closest<HTMLElement>('button[data-page], a[data-page]');
         if (pageLink && pageLink.dataset.page) {
             e.preventDefault();
             ttsReader.stop(); // Stop any ongoing speech before navigating
