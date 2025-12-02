@@ -993,7 +993,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 pageCache[pageToLoad] = pageHtml;
             }
     
-            pageContentWrapper.innerHTML = DOMPurify.sanitize(pageHtml, { ADD_ATTR: ['target'] });
+            pageContentWrapper.innerHTML = DOMPurify.sanitize(pageHtml, {
+                ADD_ATTR: ['target', 'data-page', 'data-page-parent', 'aria-label', 'aria-expanded', 'aria-controls']
+            });
     
             // Call setup and show for the newly loaded page
             const pageModule = pageModules[pageToLoad];
