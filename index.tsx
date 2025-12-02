@@ -13,6 +13,7 @@ import { setupSocialPage, showSocialPage } from './social';
 import { setupPlanejamentoDiarioPage, showPlanejamentoDiarioPage } from './planejamento-diario';
 import { setupTarefasPage, showTarefasPage } from './tarefas';
 import { setupAlongamentoPage, showAlongamentoPage } from './alongamento';
+import { setupInicioPage, showInicioPage } from './inicio';
 import DOMPurify from 'dompurify';
 
 // Re-declare the global window interface to inform TypeScript about global functions
@@ -823,6 +824,7 @@ const pageModules: { [key: string]: { setup: () => void; show: () => void; } } =
     'planejamento-diario': { setup: setupPlanejamentoDiarioPage, show: showPlanejamentoDiarioPage },
     'tarefas': { setup: setupTarefasPage, show: showTarefasPage },
     'alongamento': { setup: setupAlongamentoPage, show: showAlongamentoPage },
+    'inicio': { setup: setupInicioPage, show: showInicioPage },
 };
 
 
@@ -951,7 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pageToLoad = hash;
         } 
         // 2. Is it a static content page with a specific pattern?
-        else if (hash.startsWith('leitura-guia-') || hash.startsWith('food-') || hash === 'inicio' || hash === 'jejum-verde' || hash === 'alimentacao-forte') {
+        else if (hash.startsWith('leitura-guia-') || hash.startsWith('food-') || hash === 'jejum-verde' || hash === 'alimentacao-forte') {
             pageToLoad = hash;
         } 
         // 3. If not a direct page, assume it's an anchor within another page.
@@ -991,7 +993,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 pageCache[pageToLoad] = pageHtml;
             }
     
-            pageContentWrapper.innerHTML = DOMPurify.sanitize(pageHtml, { ADD_ATTR: ['target'] });
+            pageContentWrapper.innerHTML = DOMPurify.sanitize(pageHtml, {
+                ADD_ATTR: ['target', 'data-page', 'data-page-parent', 'aria-label', 'aria-expanded', 'aria-controls']
+            });
     
             // Call setup and show for the newly loaded page
             const pageModule = pageModules[pageToLoad];

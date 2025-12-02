@@ -16,6 +16,30 @@
     <link rel="stylesheet" href="/index.css">
 </head>
 <body>
+    <div id="global-error-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; z-index: 9999; padding: 20px; overflow: auto;">
+        <h2 style="color: #ff4444;">Application Error</h2>
+        <pre id="global-error-message" style="white-space: pre-wrap; font-family: monospace;"></pre>
+        <button onclick="document.getElementById('global-error-overlay').style.display='none'" style="padding: 10px 20px; margin-top: 20px; background: #444; border: none; color: white; cursor: pointer;">Close</button>
+    </div>
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            var overlay = document.getElementById('global-error-overlay');
+            var message = document.getElementById('global-error-message');
+            if (overlay && message) {
+                message.textContent = "Error: " + msg + "\nURL: " + url + "\nLine: " + lineNo + "\nColumn: " + columnNo + "\nStack: " + (error ? error.stack : 'N/A');
+                overlay.style.display = 'block';
+            }
+            return false;
+        };
+        window.onunhandledrejection = function(event) {
+             var overlay = document.getElementById('global-error-overlay');
+            var message = document.getElementById('global-error-message');
+             if (overlay && message) {
+                message.textContent = "Unhandled Rejection: " + event.reason;
+                overlay.style.display = 'block';
+            }
+        };
+    </script>
 
     <nav id="sidebar-menu" class="sidebar">
         <button id="sidebar-toggle" class="sidebar-toggle-button" aria-label="Alternar menu lateral" aria-expanded="false">
