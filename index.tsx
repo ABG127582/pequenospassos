@@ -985,7 +985,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             let pageHtml = pageCache[pageToLoad];
             if (!pageHtml) {
-                const response = await fetch(`${pageToLoad}.html`);
+                // Ensure we use a relative path with ./ so it resolves correctly
+                // regardless of the base URL (especially on GitHub Pages).
+                const response = await fetch(`./${pageToLoad}.html`);
                 if (!response.ok) {
                     throw new Error(`Page not found: ${pageToLoad}.html (Status: ${response.status})`);
                 }
