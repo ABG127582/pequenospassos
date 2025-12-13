@@ -1,0 +1,129 @@
+<div class="page-container" id="page-planejamento-diario">
+    <div class="container">
+        <header class="daily-plan-header">
+            <h1>Planejamento Diário</h1>
+            <div class="daily-plan-controls">
+                <input type="date" id="daily-plan-date">
+                <div id="daily-progress-container" class="progress-ring-container" title="Progresso das tarefas concluídas">
+                    <svg id="daily-progress-ring" width="50" height="50" viewBox="0 0 120 120">
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="54"/>
+                        <circle class="progress-ring-fg" cx="60" cy="60" r="54" pathLength="100"/>
+                        <text id="progress-ring-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">0%</text>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <main class="daily-plan-layout">
+            <section id="daily-schedule-section" class="content-section">
+                <h2 class="section-title">Horário do Dia</h2>
+                <div id="schedule-container">
+                    <ul id="schedule-hours-list">
+                        <!-- Horas e tarefas serão renderizadas aqui pelo JS -->
+                    </ul>
+                </div>
+                 <div id="add-event-btn-container">
+                    <button id="add-event-btn" class="standard-button"><i class="fas fa-plus"></i> Adicionar Evento</button>
+                </div>
+            </section>
+            <section id="daily-reflection-section" class="content-section">
+                <h2 class="section-title">Revisão Diária Estoica</h2>
+                <p>Reserve um momento ao final do dia para esta meditação. Reflita sobre seu progresso, prepare-se para os desafios e cultive a resiliência.</p>
+                
+                <div class="form-group">
+                    <label for="reflection-sleep"><strong>Descanso:</strong> Como foi seu sono e descanso na noite anterior?</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-sleep" data-key="sleep" rows="3" placeholder="Avalie a qualidade do seu sono, se sentiu-se revigorado(a), etc."></textarea>
+                        <button type="button" id="reflection-sleep-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="reflection-day-review"><strong>Revisão do Dia:</strong> Quais tarefas foram concluídas? Onde você se destacou e onde pode melhorar amanhã?</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-day-review" data-key="dayReview" rows="4" placeholder="Analise sua produtividade, interações e aprendizados do dia."></textarea>
+                        <button type="button" id="reflection-day-review-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="reflection-body-scan"><strong>Escaneamento Corporal:</strong> Como está seu corpo? Sente alguma dor ou desconforto?</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-body-scan" data-key="bodyScan" rows="3" placeholder="Note tensões, dores ou sensações de bem-estar. O que seu corpo está comunicando?"></textarea>
+                        <button type="button" id="reflection-body-scan-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reflection-mental-check"><strong>Check-in Mental:</strong> Como você se sentiu hoje? Quais emoções predominaram?</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-mental-check" data-key="mentalCheck" rows="3" placeholder="Identifique seus estados emocionais. O que os causou? O que pode fazer para cultivar mais emoções positivas?"></textarea>
+                        <button type="button" id="reflection-mental-check-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="reflection-premeditation"><strong>Premeditatio Malorum:</strong> O que de importante pode dar errado amanhã? Como você pode se preparar ou prevenir isso?</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-premeditation" data-key="premeditation" rows="4" placeholder="Antecipe adversidades de forma racional para reduzir a ansiedade e aumentar a preparação."></textarea>
+                        <button type="button" id="reflection-premeditation-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Schedule Task Modal -->
+<div id="schedule-task-modal" class="modal-container" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="schedule-task-modal-title">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h2 id="schedule-task-modal-title">Adicionar Evento</h2>
+            <button id="schedule-task-modal-close-btn" class="modal-close-button" aria-label="Fechar"><i class="fas fa-times"></i></button>
+        </header>
+        <div class="modal-body">
+            <form id="schedule-task-form">
+                <div class="form-group">
+                    <label for="task-description-input">Descrição:</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="task-description-input" required rows="3"></textarea>
+                         <button type="button" id="schedule-task-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <label for="task-start-time-input">Início:</label>
+                        <input type="time" id="task-start-time-input" required step="900">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="task-end-time-input">Fim:</label>
+                        <input type="time" id="task-end-time-input" required step="900">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task-category-select">Categoria:</label>
+                    <select id="task-category-select" required>
+                        <option value="Pessoal">Pessoal</option>
+                        <option value="Física">Física</option>
+                        <option value="Mental">Mental</option>
+                        <option value="Financeira">Financeira</option>
+                        <option value="Familiar">Familiar</option>
+                        <option value="Profissional">Profissional</option>
+                        <option value="Social">Social</option>
+                        <option value="Espiritual">Espiritual</option>
+                        <option value="Preventiva">Preventiva</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <footer class="modal-footer">
+            <button id="delete-task-btn" type="button" class="standard-button-danger" style="margin-right: auto; display: none;">Excluir</button>
+            <button id="schedule-task-modal-cancel-btn" type="button" class="standard-button-secondary">Cancelar</button>
+            <button id="save-task-btn" type="submit" form="schedule-task-form" class="standard-button">Salvar</button>
+        </footer>
+    </div>
+</div>

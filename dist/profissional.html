@@ -1,0 +1,102 @@
+
+
+<div class="page-section" id="page-profissional">
+    <div class="container">
+        <header>
+            <h1>Planejamento de Saúde Profissional</h1>
+        </header>
+        <main>
+            <!-- Card 1: PLAN -->
+            <section class="mind-map-section content-section">
+                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Propósito e Direção (O "Porquê")</summary>
+                    <ul>
+                        <li><details><summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>O Mapa do Ikigai</summary><ul><li>O que você ama fazer?</li><li>No que você é bom?</li><li>Do que o mundo precisa?</li><li>Pelo que você pode ser pago?</li></ul></details></li>
+                        <li>Alinhamento de Carreira com Valores Pessoais</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Maestria e Flow (O "Como")</summary>
+                    <ul>
+                         <li><a href="#pdca-profissional-habilidades-tecnicas" class="mind-map-button">Atingindo o Estado de Flow [PDCA]</a></li>
+                         <li><a href="#pdca-profissional-habilidades-comportamentais" class="mind-map-button">Mentalidade de Crescimento (Growth Mindset) [PDCA]</a></li>
+                         <li>Prática Deliberada e Melhoria Contínua (Kaizen)</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Resiliência e Bem-Estar (O "Escudo")</summary>
+                    <ul>
+                        <li><a href="#pdca-profissional-avaliacao-desempenho" class="mind-map-button">Gerenciamento de Estresse e Prevenção de Burnout [PDCA]</a></li>
+                        <li>Dicotomia do Controle (Estoicismo) aplicada a prazos e pressão</li>
+                        <li>Construir Fronteiras Internas (Rituais de início e fim de trabalho)</li>
+                        <li>Realizar "Auditorias de Energia" semanais</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Integração e Relações</summary>
+                    <ul>
+                        <li>Networking Estratégico e Mentoria</li>
+                        <li>Equilíbrio entre Vida Pessoal e Profissional</li>
+                    </ul>
+                </details>
+                <div id="recursos-profissional" class="resources-section" style="margin-top: 25px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Recursos Úteis</h3>
+                    <ul class="recursos-list" style="padding-left: 0; list-style: none;">
+                        <li><a href="https://www.linkedin.com/learning/" target="_blank" rel="noopener noreferrer">LinkedIn Learning (Cursos para Desenvolvimento de Habilidades)</a></li>
+                        <li><a href="https://www.coursera.org/" target="_blank" rel="noopener noreferrer">Coursera (Cursos de Universidades Renomadas)</a></li>
+                        <li><a href="https://www.glassdoor.com.br/" target="_blank" rel="noopener noreferrer">Glassdoor (Pesquisa de Salários e Avaliações de Empresas)</a></li>
+                    </ul>
+                </div>
+            </section>
+             
+            <!-- Card 2: DO -->
+            <section class="content-section">
+                <h2 class="section-title">Do</h2>
+                <div id="metas-profissionais" class="form-section">
+                    <ul id="profissional-metas-list" class="lista-planejamento"></ul>
+                    <form id="profissional-metas-form" style="margin-top: 20px;">
+                        <div class="input-wrapper">
+                            <input type="text" id="profissional-meta-input" required placeholder="Adicionar nova rotina personalizada...">
+                            <button type="button" id="profissional-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                        </div>
+                        <button type="submit" class="standard-button">Adicionar</button>
+                    </form>
+                </div>
+            </section>
+
+             <!-- Card 3: CHECK -->
+            <section id="profissional-reflection-section" class="content-section reflection-section">
+                <h2 class="section-title">Check / Reflexão</h2>
+                <p>Reflita sobre sua saúde e bem-estar profissionais hoje.</p>
+                
+                <div class="form-group">
+                    <label for="reflection-satisfacao">Nível de Satisfação/Engajamento</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-satisfacao" data-key="satisfacao" rows="3" placeholder="Hoje, meu engajamento no trabalho foi... O que me motivou ou desmotivou?"></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-satisfacao" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-progresso">Progresso em Metas/Projetos</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-progresso" data-key="progresso" rows="3" placeholder="Avancei em qual projeto importante hoje? Enfrentei algum obstáculo?"></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-progresso" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflection-equilibrio">Equilíbrio Vida/Trabalho</label>
+                    <div class="input-wrapper textarea-wrapper">
+                        <textarea id="reflection-equilibrio" data-key="equilibrio" rows="3" placeholder="Consegui desconectar do trabalho no final do dia? Como posso melhorar essa fronteira?"></textarea>
+                        <button type="button" class="ai-suggestion-btn" data-target="reflection-equilibrio" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+    </div>
+</div>
