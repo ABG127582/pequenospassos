@@ -748,7 +748,7 @@ async function getAISuggestionForInput(prompt: string, targetInput: HTMLInputEle
 
     try {
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
         });
 
@@ -791,7 +791,7 @@ async function getAITextResponse(prompt: string, button?: HTMLButtonElement): Pr
 
     try {
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
         });
         const text = response.text;
@@ -985,7 +985,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             let pageHtml = pageCache[pageToLoad];
             if (!pageHtml) {
-                const response = await fetch(`${pageToLoad}.html`);
+                // Add timestamp to prevent caching of HTML fragments during development/updates
+                const response = await fetch(`${pageToLoad}.html?v=${new Date().getTime()}`);
                 if (!response.ok) {
                     throw new Error(`Page not found: ${pageToLoad}.html (Status: ${response.status})`);
                 }
