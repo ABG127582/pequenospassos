@@ -1,7 +1,7 @@
 // This file is the main entry point for the application.
 // It handles initialization, routing, and global helper functions.
 
-import { GoogleGenAI } from "@google/genai";
+import type { GoogleGenAI } from "@google/genai";
 import { setupEspiritualPage, showEspiritualPage } from './espiritual';
 import { setupPreventivaPage, showPreventivaPage } from './preventiva';
 import { setupFisicaPage, showFisicaPage } from './fisica';
@@ -27,11 +27,14 @@ declare global {
         getAITextResponse: (prompt: string, button?: HTMLButtonElement) => Promise<string | null>;
         Chart: any; // Make Chart.js globally available
         openImageViewer: (src: string, alt?: string) => void; // New function
+        APP_LOADED: boolean; // Module load safety check
     }
 }
 
 // --- Gemini AI Initialization ---
 let ai: GoogleGenAI;
+// Dynamically imported class constructor
+let GoogleGenAIConstructor: any;
 
 // --- Text-to-Speech (TTS) Reader ---
 const ttsReader = {
@@ -828,18 +831,21 @@ const pageModules: { [key: string]: { setup: () => void; show: () => void; } } =
 };
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize the Gemini AI SDK.
-    // The API key is expected to be provided by the environment.
-    // If it's missing, we'll catch the error and let the app load.
-    // AI features will show a toast notification if used without a valid key.
+document.addEventListener('DOMContentLoaded', async () => {
+    // Mark app as loaded to prevent safety timeout
+    window.APP_LOADED = true;
+
+    // Initialize the Gemini AI SDK via Dynamic Import.
+    // This prevents the entire app from crashing if the library has load-time side effects.
     try {
+        const module = await import("@google/genai");
+        GoogleGenAIConstructor = module.GoogleGenAI;
         const apiKey = process.env.API_KEY;
-        ai = new GoogleGenAI({ apiKey });
+        if (apiKey && GoogleGenAIConstructor) {
+             ai = new GoogleGenAIConstructor({ apiKey });
+        }
     } catch (error) {
-        console.error("Failed to initialize GoogleGenAI, likely due to a missing API key. AI features will be disabled.", error);
-        // The `ai` variable will remain undefined. Helper functions like `getAISuggestionForInput`
-        // already check for this and show a non-blocking toast message.
+        console.error("Failed to initialize GoogleGenAI. AI features will be disabled.", error);
     }
 
     // Make global helpers available on the window object
