@@ -1,27 +1,47 @@
 import path from 'path';
 import { defineConfig, loadEnv, type ConfigEnv, type UserConfig } from 'vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import fs from 'fs';
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     const env = loadEnv(mode, '.', '');
+
+    // Get all .html files from the public directory to include them in the build
+    const publicDir = path.resolve(__dirname, 'public');
+    const htmlFiles = fs.readdirSync(publicDir).filter(file => file.endsWith('.html'));
+    
+    // Map them to their paths for rollup input
+    const inputFiles: { [key: string]: string } = {
+        main: path.resolve(__dirname, 'index.html'),
+    };
+    
+    htmlFiles.forEach(file => {
+        const name = file.replace('.html', '');
+        inputFiles[name] = path.resolve(__dirname, 'public', file);
+    });
 
     return {
       base: './',
       plugins: [basicSsl()],
       define: {
-        // Standardize on using API_KEY from the environment.
         'process.env.API_KEY': JSON.stringify(env.API_KEY),
       },
       resolve: {
         alias: {
-          '@': path.resolve('./'),
+          '@': path.resolve(__dirname, './'),
         }
       },
       build: {
+        outDir: 'dist',
+        emptyOutDir: true,
         rollupOptions: {
-          input: [
-            'index.html'
-          ]
+          input: inputFiles,
+          output: {
+            // Keep the original filenames for HTML files in the root of dist
+            entryFileNames: `assets/[name]-[hash].js`,
+            chunkFileNames: `assets/[name]-[hash].js`,
+            assetFileNames: `assets/[name]-[hash].[ext]`,
+          }
         }
       }
     };
