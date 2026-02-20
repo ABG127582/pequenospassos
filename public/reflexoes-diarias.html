@@ -1,0 +1,64 @@
+<div class="page-section" id="page-reflexoes-diarias">
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-lightbulb" style="margin-right: 10px;"></i> Diário de Reflexões</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <div class="reflexoes-controls">
+                    <div class="reflexoes-filter-bar">
+                        <div class="reflexoes-filter-group">
+                            <label for="reflexoes-search-input">Buscar:</label>
+                            <input type="search" id="reflexoes-search-input" placeholder="Filtrar por palavra-chave...">
+                        </div>
+                        <div class="reflexoes-filter-group">
+                            <label for="reflexoes-category-filter">Categoria:</label>
+                            <select id="reflexoes-category-filter">
+                                <option value="all">Todas</option>
+                                <!-- Options will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="reflexoes-filter-group">
+                            <label for="reflexoes-date-filter">Período:</label>
+                            <select id="reflexoes-date-filter">
+                                <option value="all">Todo o período</option>
+                                <option value="today">Hoje</option>
+                                <option value="week">Últimos 7 dias</option>
+                                <option value="month">Últimos 30 dias</option>
+                            </select>
+                        </div>
+                        <div class="reflexoes-filter-group">
+                            <label for="reflexoes-sort-filter">Ordenar por:</label>
+                            <select id="reflexoes-sort-filter">
+                                <option value="desc">Mais recentes</option>
+                                <option value="asc">Mais antigas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="reflexoes-action-bar">
+                         <button id="generate-insights-btn" class="standard-button">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                            <span class="btn-text">Gerar Insights</span>
+                            <i class="fas fa-spinner fa-spin" style="display: none;"></i>
+                        </button>
+                        <div class="reflexoes-view-toggle">
+                            <button id="list-view-btn" class="view-btn active" aria-pressed="true" title="Visualização em Lista"><i class="fas fa-bars"></i></button>
+                            <button id="grid-view-btn" class="view-btn" aria-pressed="false" title="Visualização em Grade"><i class="fas fa-grip"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reflexoes-list-container">
+                    <!-- Reflections will be rendered here by JS -->
+                </div>
+
+                <div id="reflexoes-empty-state" class="empty-list-placeholder" style="display: none;">
+                    <p>Nenhuma reflexão encontrada. Comece a registrar seus pensamentos nas páginas de saúde!</p>
+                </div>
+            </section>
+        </main>
+        <div class="back-button-wrapper">
+            <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+        </div>
+    </div>
+</div>

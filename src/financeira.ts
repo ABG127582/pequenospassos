@@ -1,45 +1,28 @@
+
 import DOMPurify from 'dompurify';
 import { openModal as openScheduleModal, TaskCategory } from './planejamento-diario';
+import { confirmAction, showMedalAnimation, awardMedalForCategory } from './utils';
+import { STORAGE_KEYS } from './constants';
+import { storageService } from './storage';
+import { GoalManager, Goal } from './goalManager';
 
 // Type definitions
-interface Goal {
-    id: string;
-    text: string;
-    completed: boolean;
-    time?: string;
-}
-
 interface Asset {
     id: string;
     name: string;
     purchaseDate: string;
 }
 
-interface FinanceiraReflection {
-    sentimento: string;
-    decisoesGasto: string;
-    progressoMetas: string;
-}
-
 // Re-declare window interface
 declare global {
     interface Window {
         showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
-        saveItems: (storageKey: string, items: any) => void;
-        loadItems: (storageKey: string) => any;
-        getAISuggestionForInput: (prompt: string, targetInput: HTMLInputElement | HTMLTextAreaElement, button: HTMLButtonElement) => Promise<void>;
-        getAITextResponse: (prompt: string, button?: HTMLButtonElement) => Promise<string | null>;
     }
 }
 
-// --- Module-scoped state ---
-let goals: Goal[] = [];
 let assets: Asset[] = [];
-let reflection: FinanceiraReflection = { sentimento: '', decisoesGasto: '', progressoMetas: '' };
 let editingAssetId: string | null = null;
-
-const GOALS_STORAGE_KEY = 'financeiraGoals';
-const ASSETS_STORAGE_KEY = 'financeiraAssets';
+let goalManager: GoalManager | null = null;
 
 const defaultGoals: Goal[] = [
     { id: 'financeira-1', text: 'Registrar todas as despesas do dia', completed: false },
@@ -48,22 +31,12 @@ const defaultGoals: Goal[] = [
     { id: 'financeira-4', text: 'Estudar por 15 minutos sobre um tipo de investimento (ex: Tesouro Selic)', completed: false },
 ];
 
-// --- DOM Elements ---
 const elements = {
     pageContainer: null as HTMLElement | null,
-    // Goals
-    goalsList: null as HTMLUListElement | null,
-    goalsForm: null as HTMLFormElement | null,
-    goalInput: null as HTMLInputElement | null,
-    goalAIBtn: null as HTMLButtonElement | null,
-    // Action Hub
-    actionHub: null as HTMLElement | null,
-    // Asset Replacement
     assetList: null as HTMLTableSectionElement | null,
     assetForm: null as HTMLFormElement | null,
     assetNameInput: null as HTMLInputElement | null,
     assetPurchaseDateInput: null as HTMLInputElement | null,
-    // Asset Modal
     assetModal: null as HTMLElement | null,
     assetModalForm: null as HTMLFormElement | null,
     assetModalCloseBtn: null as HTMLButtonElement | null,
@@ -71,13 +44,8 @@ const elements = {
     saveAssetEditBtn: null as HTMLButtonElement | null,
     assetNameEditInput: null as HTMLInputElement | null,
     assetPurchaseDateEditInput: null as HTMLInputElement | null,
-    // Reflection
-    reflectionSection: null as HTMLElement | null,
-    reflectionInputs: new Map<string, HTMLTextAreaElement>(),
+    reflectionForm: null as HTMLFormElement | null,
 };
-
-const getReflectionStorageKey = () => `financeiraReflection-${new Date().toISOString().split('T')[0]}`;
-
 
 // --- ASSET REPLACEMENT ---
 const renderAssets = () => {
@@ -142,7 +110,7 @@ const handleSaveAssetEdit = (e: Event) => {
     assets[assetIndex].name = newName;
     assets[assetIndex].purchaseDate = newDate;
 
-    window.saveItems(ASSETS_STORAGE_KEY, assets);
+    storageService.set(STORAGE_KEYS.FINANCE_ASSETS, assets);
     renderAssets();
     closeAssetEditModal();
     window.showToast('Item atualizado com sucesso!', 'success');
@@ -165,89 +133,35 @@ const handleAddAsset = (e: Event) => {
     };
     
     assets.push(newAsset);
-    window.saveItems(ASSETS_STORAGE_KEY, assets);
+    storageService.set(STORAGE_KEYS.FINANCE_ASSETS, assets);
     renderAssets();
     elements.assetForm!.reset();
 };
 
-const handleAssetListClick = (e: Event) => {
+const handleAssetListClick = async (e: Event) => {
     const target = e.target as HTMLElement;
     const row = target.closest('tr');
     if (!row || !row.dataset.id) return;
     const assetId = row.dataset.id;
+    const asset = assets.find(a => a.id === assetId);
+    if (!asset) return;
+
 
     const editBtn = target.closest('.edit-asset-btn');
     if (editBtn) {
-        const assetToEdit = assets.find(a => a.id === assetId);
-        if (assetToEdit) {
-            openAssetEditModal(assetToEdit);
-        }
+        openAssetEditModal(asset);
         return;
     }
 
     const deleteBtn = target.closest('.delete-asset-btn');
     if (deleteBtn) {
-        if (confirm('Tem certeza que deseja remover este item do planejamento?')) {
-            assets = assets.filter(asset => asset.id !== assetId);
-            window.saveItems(ASSETS_STORAGE_KEY, assets);
+        const confirmed = await confirmAction(`Tem certeza que deseja remover "${asset.name}" do planejamento?`);
+        if (confirmed) {
+            assets = assets.filter(a => a.id !== assetId);
+            storageService.set(STORAGE_KEYS.FINANCE_ASSETS, assets);
             renderAssets();
             window.showToast('Item removido do planejamento.', 'success');
         }
-    }
-};
-
-// --- GOAL MANAGEMENT ---
-const renderGoals = () => {
-    if (!elements.goalsList) return;
-    elements.goalsList.innerHTML = '';
-    if (goals.length === 0) {
-        elements.goalsList.innerHTML = '<li class="empty-list-placeholder">Nenhum objetivo definido.</li>';
-        return;
-    }
-    goals.forEach(goal => {
-        const li = document.createElement('li');
-        li.className = goal.completed ? 'completed' : '';
-        li.dataset.id = goal.id;
-        li.innerHTML = `
-            <input type="checkbox" class="task-checkbox" ${goal.completed ? 'checked' : ''} id="task-${goal.id}" aria-labelledby="task-label-${goal.id}">
-            <label for="task-${goal.id}" class="item-text" id="task-label-${goal.id}">${DOMPurify.sanitize(goal.text)}</label>
-            ${goal.time ? `<span class="item-time"><i class="fas fa-clock"></i> ${goal.time}</span>` : ''}
-            <div class="item-actions">
-                <button class="action-btn delete-btn delete" aria-label="Apagar objetivo"><i class="fas fa-trash"></i></button>
-            </div>
-        `;
-        elements.goalsList!.appendChild(li);
-    });
-};
-
-const handleGoalAction = (e: Event) => {
-    const target = e.target as HTMLElement;
-    const li = target.closest('li');
-    if (!li || !li.dataset.id) return;
-
-    const goalId = li.dataset.id;
-    const goalIndex = goals.findIndex(g => g.id === goalId);
-    if (goalIndex === -1) return;
-
-    if (target.matches('.task-checkbox') || target.closest('.item-text')) {
-        goals[goalIndex].completed = !goals[goalIndex].completed;
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
-    } else if (target.closest('.delete-btn')) {
-        goals.splice(goalIndex, 1);
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
-    }
-};
-
-const handleAddGoal = (e: Event) => {
-    e.preventDefault();
-    const text = elements.goalInput!.value.trim();
-    if (text) {
-        goals.unshift({ id: Date.now().toString(), text, completed: false });
-        elements.goalInput!.value = '';
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
     }
 };
 
@@ -267,88 +181,93 @@ const handleActionHubClick = (e: Event) => {
     }
 };
 
+function setupReflectionForm() {
+    if (!elements.reflectionForm) return;
+
+    elements.reflectionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const textareas = elements.reflectionForm!.querySelectorAll<HTMLTextAreaElement>('.reflection-input');
+        const category = elements.reflectionForm!.dataset.category as any;
+        let savedCount = 0;
+
+        const allReflections = storageService.get<any[]>(STORAGE_KEYS.UNIFIED_REFLECTIONS) || [];
+
+        textareas.forEach(textarea => {
+            const text = textarea.value.trim();
+            if (text) {
+                const now = new Date();
+                const newReflection = {
+                    id: `${now.getTime()}-${Math.random()}`,
+                    category: category,
+                    title: textarea.dataset.title || 'Reflexão',
+                    text: text,
+                    date: now.toISOString().split('T')[0],
+                    timestamp: now.getTime()
+                };
+                allReflections.push(newReflection);
+                textarea.value = ''; // Clear after saving
+                savedCount++;
+            }
+        });
+        
+        if (savedCount > 0) {
+            storageService.set(STORAGE_KEYS.UNIFIED_REFLECTIONS, allReflections);
+            window.showToast(`${savedCount} reflex${savedCount > 1 ? 'ões salvas' : 'ão salva'} com sucesso!`, 'success');
+        } else {
+            window.showToast('Nenhuma reflexão preenchida para salvar.', 'info');
+        }
+    });
+}
+
 // --- LIFECYCLE FUNCTIONS ---
-export function setupFinanceiraPage() {
+export function setup() {
     const page = document.getElementById('page-financeira');
     if (!page) return;
 
     elements.pageContainer = page;
-    // FIX: Added type assertions to querySelector calls for improved type safety.
-    elements.goalsList = page.querySelector('#financeira-metas-list') as HTMLUListElement;
-    elements.goalsForm = page.querySelector('#financeira-metas-form') as HTMLFormElement;
-    elements.goalInput = page.querySelector('#financeira-meta-input') as HTMLInputElement;
-    elements.goalAIBtn = page.querySelector('#financeira-meta-input-ai-btn') as HTMLButtonElement;
-    elements.actionHub = page.querySelector('#do-action-hub') as HTMLElement;
     elements.assetList = page.querySelector('#asset-replacement-list') as HTMLTableSectionElement;
     elements.assetForm = page.querySelector('#add-asset-form') as HTMLFormElement;
     elements.assetNameInput = page.querySelector('#asset-name-input') as HTMLInputElement;
     elements.assetPurchaseDateInput = page.querySelector('#asset-purchase-date-input') as HTMLInputElement;
-    elements.reflectionSection = page.querySelector('#financeira-reflection-section') as HTMLElement;
+    elements.reflectionForm = page.querySelector('.reflection-form');
     
     // Asset Modal Elements
     elements.assetModal = document.getElementById('asset-modal');
     elements.assetModalForm = document.getElementById('asset-edit-form') as HTMLFormElement;
-    // FIX: Added type assertion to correctly cast HTMLElement to HTMLButtonElement.
     elements.assetModalCloseBtn = document.getElementById('asset-modal-close-btn') as HTMLButtonElement;
-    // FIX: Added type assertion to correctly cast HTMLElement to HTMLButtonElement.
     elements.assetModalCancelBtn = document.getElementById('asset-modal-cancel-btn') as HTMLButtonElement;
-    // FIX: Added type assertion to correctly cast HTMLElement to HTMLButtonElement.
     elements.saveAssetEditBtn = document.getElementById('save-asset-edit-btn') as HTMLButtonElement;
     elements.assetNameEditInput = document.getElementById('asset-name-edit-input') as HTMLInputElement;
     elements.assetPurchaseDateEditInput = document.getElementById('asset-purchase-date-edit-input') as HTMLInputElement;
 
-
-    elements.goalsForm?.addEventListener('submit', handleAddGoal);
-    elements.goalsList?.addEventListener('click', handleGoalAction);
-    elements.actionHub?.addEventListener('click', handleActionHubClick);
+    const actionHub = page.querySelector('#do-action-hub');
+    actionHub?.addEventListener('click', handleActionHubClick);
     elements.assetForm?.addEventListener('submit', handleAddAsset);
     elements.assetList?.addEventListener('click', handleAssetListClick);
+    setupReflectionForm();
 
     // Asset Modal Listeners
     elements.assetModalCloseBtn?.addEventListener('click', closeAssetEditModal);
     elements.assetModalCancelBtn?.addEventListener('click', closeAssetEditModal);
     elements.assetModalForm?.addEventListener('submit', handleSaveAssetEdit);
 
-    elements.goalAIBtn?.addEventListener('click', () => {
-        const prompt = "Sugira um objetivo financeiro SMART (Específico, Mensurável, Atingível, Relevante, Temporal). Por exemplo, 'Economizar R$ 3.000 para a reserva de emergência nos próximos 6 meses' ou 'Quitar a fatura do cartão de crédito de R$ 1.500 em 3 meses'.";
-        window.getAISuggestionForInput(prompt, elements.goalInput!, elements.goalAIBtn!);
-    });
-
-    // Setup reflection section
-    if (elements.reflectionSection) {
-        elements.reflectionSection.querySelectorAll<HTMLTextAreaElement>('textarea[data-key]').forEach(input => {
-            const key = input.dataset.key as keyof FinanceiraReflection;
-            elements.reflectionInputs.set(key, input);
-            input.addEventListener('input', () => {
-                reflection[key] = input.value;
-                window.saveItems(getReflectionStorageKey(), reflection);
-            });
-        });
-
-        elements.reflectionSection.querySelectorAll<HTMLButtonElement>('button.ai-suggestion-btn').forEach(btn => {
-            const targetId = btn.dataset.target;
-            if (targetId) {
-                const targetInput = document.getElementById(targetId) as HTMLTextAreaElement;
-                if (targetInput) {
-                    const promptMap: { [key: string]: string } = {
-                        'reflection-sentimento': "Gere uma breve reflexão sobre se sentir no controle das finanças hoje por ter seguido o orçamento.",
-                        'reflection-gastos': "Escreva uma reflexão sobre uma compra consciente, explicando por que ela estava alinhada com os valores pessoais e não foi por impulso.",
-                        'reflection-progresso': "Descreva um pequeno passo dado hoje em direção a uma meta financeira, como 'transferi R$50 para a poupança'."
-                    };
-                    btn.addEventListener('click', () => {
-                        window.getAISuggestionForInput(promptMap[targetId], targetInput, btn);
-                    });
-                }
-            }
-        });
-    }
+    // Initializing Goal Manager
+    goalManager = new GoalManager(
+        'page-financeira',
+        STORAGE_KEYS.FINANCE_GOALS,
+        'financeira-metas-list',
+        'financeira-metas-form',
+        'financeira-meta-input',
+        defaultGoals,
+        'Financeira'
+    );
+    goalManager.setup();
 }
 
-export function showFinanceiraPage() {
-    const savedGoals = window.loadItems(GOALS_STORAGE_KEY);
-    goals = (savedGoals && savedGoals.length > 0) ? savedGoals : defaultGoals;
+export function show() {
+    goalManager?.show();
     
-    const savedAssets = window.loadItems(ASSETS_STORAGE_KEY);
+    const savedAssets = storageService.get<Asset[]>(STORAGE_KEYS.FINANCE_ASSETS);
     if (savedAssets && savedAssets.length > 0) {
         assets = savedAssets;
     } else {
@@ -369,11 +288,5 @@ export function showFinanceiraPage() {
         ];
     }
     
-    renderGoals();
     renderAssets();
-    
-    reflection = window.loadItems(getReflectionStorageKey()) || { sentimento: '', decisoesGasto: '', progressoMetas: '' };
-    elements.reflectionInputs.forEach((input, key) => {
-        input.value = reflection[key as keyof FinanceiraReflection] || '';
-    });
 }

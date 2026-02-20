@@ -1,14 +1,13 @@
 
-
 <div class="page-section" id="page-profissional">
     <div class="container">
         <header>
-            <h1>Planejamento de Saúde Profissional</h1>
+            <h1>PDCA Saúde Profissional</h1>
         </header>
         <main>
-            <!-- Card 1: PLAN -->
+             <!-- Card 1: PLAN -->
             <section class="mind-map-section content-section">
-                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+                <h2 class="section-title">Planejamento (Plan)</h2>
                 <details>
                     <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Propósito e Direção (O "Porquê")</summary>
                     <ul>
@@ -19,9 +18,9 @@
                 <details>
                     <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Maestria e Flow (O "Como")</summary>
                     <ul>
-                         <li><a href="#pdca-profissional-habilidades-tecnicas" class="mind-map-button">Atingindo o Estado de Flow [PDCA]</a></li>
-                         <li><a href="#pdca-profissional-habilidades-comportamentais" class="mind-map-button">Mentalidade de Crescimento (Growth Mindset) [PDCA]</a></li>
-                         <li>Prática Deliberada e Melhoria Contínua (Kaizen)</li>
+                        <li><a href="#pdca-profissional-habilidades-tecnicas" class="mind-map-button">Atingindo o Estado de Flow [PDCA]</a></li>
+                        <li><a href="#pdca-profissional-habilidades-comportamentais" class="mind-map-button">Mentalidade de Crescimento (Growth Mindset) [PDCA]</a></li>
+                        <li>Prática Deliberada e Melhoria Contínua (Kaizen)</li>
                     </ul>
                 </details>
                 <details>
@@ -40,59 +39,65 @@
                         <li>Equilíbrio entre Vida Pessoal e Profissional</li>
                     </ul>
                 </details>
-                <div id="recursos-profissional" class="resources-section" style="margin-top: 25px;">
-                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Recursos Úteis</h3>
-                    <ul class="recursos-list" style="padding-left: 0; list-style: none;">
-                        <li><a href="https://www.linkedin.com/learning/" target="_blank" rel="noopener noreferrer">LinkedIn Learning (Cursos para Desenvolvimento de Habilidades)</a></li>
-                        <li><a href="https://www.coursera.org/" target="_blank" rel="noopener noreferrer">Coursera (Cursos de Universidades Renomadas)</a></li>
-                        <li><a href="https://www.glassdoor.com.br/" target="_blank" rel="noopener noreferrer">Glassdoor (Pesquisa de Salários e Avaliações de Empresas)</a></li>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Recursos Úteis</summary>
+                    <ul class="recursos-list" style="padding-left: 20px; list-style: disc;">
+                        <li><a href="https://www.linkedin.com/learning/" target="_blank" rel="noopener noreferrer">LinkedIn Learning</a> - Cursos para desenvolvimento de habilidades.</li>
+                        <li><a href="https://hbr.org/" target="_blank" rel="noopener noreferrer">Harvard Business Review</a> - Artigos e insights sobre gestão e liderança.</li>
+                        <li><a href="https://www.coursera.org/" target="_blank" rel="noopener noreferrer">Coursera</a> - Cursos de universidades e empresas renomadas.</li>
+                        <li><a href="https://www.forbes.com/careers" target="_blank" rel="noopener noreferrer">Forbes Careers</a> - Notícias e conselhos de carreira.</li>
+                        <li><a href="https://www.glassdoor.com/" target="_blank" rel="noopener noreferrer">Glassdoor</a> - Pesquisa de salários e avaliações de empresas.</li>
+                        <li><a href="https://www.inc.com/" target="_blank" rel="noopener noreferrer">Inc. Magazine</a> - Conselhos para empreendedores e pequenas empresas.</li>
+                        <li><a href="https://www.fastcompany.com/" target="_blank" rel="noopener noreferrer">Fast Company</a> - Foco em inovação, negócios e design.</li>
+                        <li><a href="https://www.indeed.com/career-advice" target="_blank" rel="noopener noreferrer">Indeed Career Guide</a> - Dicas para busca de emprego e desenvolvimento.</li>
+                        <li><a href="https://sloanreview.mit.edu/" target="_blank" rel="noopener noreferrer">MIT Sloan Management Review</a> - Pesquisa e estratégia de gestão.</li>
+                        <li><a href="https://www.ted.com/talks" target="_blank" rel="noopener noreferrer">TED Talks (Work)</a> - Palestras inspiradoras sobre trabalho e carreira.</li>
                     </ul>
-                </div>
+                </details>
             </section>
-             
+            
             <!-- Card 2: DO -->
             <section class="content-section">
                 <h2 class="section-title">Do</h2>
-                <div id="metas-profissionais" class="form-section">
+                 <div id="metas-profissionais" class="form-section">
                     <ul id="profissional-metas-list" class="lista-planejamento"></ul>
                     <form id="profissional-metas-form" style="margin-top: 20px;">
-                        <div class="input-wrapper">
+                        <div class="input-wrapper has-multiple-btns">
                             <input type="text" id="profissional-meta-input" required placeholder="Adicionar nova rotina personalizada...">
-                            <button type="button" id="profissional-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                            <button type="button" class="ai-suggestion-btn" title="Sugerir Meta com IA"><i class="fas fa-wand-magic-sparkles"></i></button>
+                            <button type="button" class="speech-to-text-btn" title="Digitar por Voz"><i class="fas fa-microphone"></i></button>
                         </div>
                         <button type="submit" class="standard-button">Adicionar</button>
                     </form>
                 </div>
             </section>
 
-             <!-- Card 3: CHECK -->
-            <section id="profissional-reflection-section" class="content-section reflection-section">
-                <h2 class="section-title">Check / Reflexão</h2>
-                <p>Reflita sobre sua saúde e bem-estar profissionais hoje.</p>
-                
-                <div class="form-group">
-                    <label for="reflection-satisfacao">Nível de Satisfação/Engajamento</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-satisfacao" data-key="satisfacao" rows="3" placeholder="Hoje, meu engajamento no trabalho foi... O que me motivou ou desmotivou?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-satisfacao" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+            <!-- Card 3: CHECK / ADJUST -->
+            <section class="content-section reflection-section">
+                <h2 class="section-title">Check / Adjust</h2>
+                <form class="reflection-form" data-category="Profissional">
+                    <div class="form-group">
+                        <label for="reflection-profissional-sleep">Como dormi esta noite? (Qualidade, sonhos, sentimentos ao acordar)</label>
+                        <textarea id="reflection-profissional-sleep" class="reflection-input" data-title="Reflexão do Sono"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-progresso">Progresso em Metas/Projetos</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-progresso" data-key="progresso" rows="3" placeholder="Avancei em qual projeto importante hoje? Enfrentei algum obstáculo?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-progresso" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-profissional-dayReview">O que correu bem hoje? O que poderia ter feito melhor? (Análise do dia)</label>
+                        <textarea id="reflection-profissional-dayReview" class="reflection-input" data-title="Análise do Dia"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-equilibrio">Equilíbrio Vida/Trabalho</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-equilibrio" data-key="equilibrio" rows="3" placeholder="Consegui desconectar do trabalho no final do dia? Como posso melhorar essa fronteira?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-equilibrio" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-profissional-bodyScan">Como me sinto no meu corpo agora? (Sensações, tensões, energia)</label>
+                        <textarea id="reflection-profissional-bodyScan" class="reflection-input" data-title="Escaneamento Corporal"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="reflection-profissional-mentalCheck">Que pensamentos ou emoções estão presentes? (Check-in mental)</label>
+                        <textarea id="reflection-profissional-mentalCheck" class="reflection-input" data-title="Check-in Mental"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflection-profissional-premeditation">O que posso enfrentar hoje/amanhã? O que está fora do meu controle? (Premeditatio Malorum)</label>
+                        <textarea id="reflection-profissional-premeditation" class="reflection-input" data-title="Premeditatio Malorum"></textarea>
+                    </div>
+                    <button type="submit" class="standard-button"><i class="fas fa-save"></i> Salvar Reflexões</button>
+                </form>
             </section>
         </main>
         <div class="back-button-wrapper">

@@ -1,13 +1,13 @@
+
 <div class="page-section" id="page-social">
     <div class="container">
         <header>
-            <h1>Planejamento de Saúde Social</h1>
+            <h1>PDCA Saúde Social</h1>
         </header>
         <main>
              <!-- Card 1: PLAN -->
             <section class="mind-map-section content-section">
-                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
-                
+                <h2 class="section-title">Planejamento (Plan)</h2>
                 <details>
                     <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Qualidade vs. Quantidade (Os Fios Fortes)</summary>
                     <ul>
@@ -30,92 +30,66 @@
                         <li>Equilibrar Tempo Sozinho e Tempo com Outros</li>
                     </ul>
                 </details>
-                <div id="recursos-social" class="resources-section" style="margin-top: 25px;">
-                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Recursos Úteis</h3>
-                    <ul class="recursos-list" style="padding-left: 0; list-style: none;">
-                        <li><a href="https://www.meetup.com/" target="_blank" rel="noopener noreferrer">Meetup (Encontrar Grupos e Eventos Locais)</a></li>
-                        <li><a href="https://www.cnvc.org/" target="_blank" rel="noopener noreferrer">Center for Nonviolent Communication (Aprenda a se comunicar com mais empatia)</a></li>
-                        <li>
-                            <button id="generate-social-resources-btn" class="standard-button small-button">
-                              <i class="fas fa-robot"></i> Gerar Sugestões de Recursos com IA
-                            </button>
-                          </li>
-                          <li id="social-resources-loading" style="display: none; text-align: center; margin: 15px 0;">
-                              <i class="fas fa-spinner fa-spin"></i> Buscando recursos...
-                          </li>
-                          <li id="social-resources-output"></li>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Recursos Úteis</summary>
+                    <ul class="recursos-list" style="padding-left: 20px; list-style: disc;">
+                        <li><a href="https://www.meetup.com/" target="_blank" rel="noopener noreferrer">Meetup</a> - Encontrar grupos e eventos locais por interesse.</li>
+                        <li><a href="https://www.cnvc.org/" target="_blank" rel="noopener noreferrer">Center for Nonviolent Communication</a> - Aprender a se comunicar com empatia.</li>
+                        <li><a href="https://www.gottman.com/blog/" target="_blank" rel="noopener noreferrer">The Gottman Institute Blog</a> - Dicas de relacionamento baseadas em ciência.</li>
+                        <li><a href="https://brenebrown.com/" target="_blank" rel="noopener noreferrer">Brené Brown's Hub</a> - Recursos sobre vulnerabilidade, coragem e conexão.</li>
+                        <li><a href="https://www.psychologytoday.com/us/basics/relationships" target="_blank" rel="noopener noreferrer">Psychology Today (Relationships)</a> - Artigos sobre todos os tipos de relacionamentos.</li>
+                        <li><a href="https://www.scienceofpeople.com/" target="_blank" rel="noopener noreferrer">Science of People</a> - Dicas de habilidades sociais baseadas em pesquisa.</li>
+                        <li><a href="https://www.artofmanliness.com/people/social-skills/" target="_blank" rel="noopener noreferrer">The Art of Manliness (Social Skills)</a> - Guias práticos para melhorar interações.</li>
+                        <li><a href="https://www.eventbrite.com/" target="_blank" rel="noopener noreferrer">Eventbrite</a> - Descobrir eventos e atividades locais para conhecer pessoas.</li>
+                        <li><a href="https://www.volunteermatch.org/" target="_blank" rel="noopener noreferrer">VolunteerMatch</a> - Encontrar oportunidades de voluntariado para se conectar com a comunidade.</li>
+                        <li><a href="https://www.shastanelson.com/" target="_blank" rel="noopener noreferrer">Shasta Nelson</a> - Especialista em amizades e relacionamentos saudáveis.</li>
                     </ul>
-                </div>
+                </details>
             </section>
             
             <!-- Card 2: DO -->
             <section class="content-section">
                 <h2 class="section-title">Do</h2>
-                <div class="action-hub-grid">
-                    <div class="routine-block" data-description="Ligar para um amigo ou familiar com quem não falo há tempos" data-category="Social">
-                        <h3><i class="fas fa-phone-alt"></i> Nutrir Amizades</h3>
-                        <p>Seja proativo. Marque no seu dia um momento para ligar para um amigo ou familiar e fortalecer esse laço.</p>
-                        <div class="routine-block-actions">
-                            <button class="standard-button add-to-plan-btn"><i class="fas fa-calendar-plus"></i> Adicionar ao Plano de Hoje</button>
-                        </div>
-                    </div>
-                    <div class="routine-block" data-description="Participar de um evento ou curso para conhecer pessoas novas" data-category="Social">
-                        <h3><i class="fas fa-users"></i> Novas Conexões</h3>
-                        <p>Siga sua curiosidade. Agende um tempo para participar de um evento, curso ou grupo sobre algo que você ama.</p>
-                        <div class="routine-block-actions">
-                            <button class="standard-button add-to-plan-btn"><i class="fas fa-calendar-plus"></i> Adicionar ao Plano de Hoje</button>
-                        </div>
-                    </div>
-                    <div class="routine-block" data-description="Enviar uma mensagem significativa para alguém da minha 'tribo íntima'" data-category="Social">
-                        <h3><i class="fas fa-comment-dots"></i> Micro-Interação</h3>
-                        <p>Envie uma mensagem de apreço ou compartilhe algo interessante com uma das 3 a 5 pessoas mais importantes da sua vida.</p>
-                         <div class="routine-block-actions">
-                            <button class="standard-button add-to-plan-btn"><i class="fas fa-calendar-plus"></i> Adicionar ao Plano de Hoje</button>
-                        </div>
-                    </div>
-                </div>
-                 <div id="metas-sociais" class="form-section" style="margin-top: 30px;">
+                <div id="metas-sociais" class="form-section">
                     <ul id="social-metas-list" class="lista-planejamento"></ul>
                     <form id="social-metas-form" style="margin-top: 20px;">
-                        <div class="input-wrapper">
+                        <div class="input-wrapper has-multiple-btns">
                             <input type="text" id="social-meta-input" required placeholder="Adicionar nova rotina personalizada...">
-                            <button type="button" id="social-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                            <button type="button" class="ai-suggestion-btn" title="Sugerir Meta com IA"><i class="fas fa-wand-magic-sparkles"></i></button>
+                            <button type="button" class="speech-to-text-btn" title="Digitar por Voz"><i class="fas fa-microphone"></i></button>
                         </div>
                         <button type="submit" class="standard-button">Adicionar</button>
                     </form>
                 </div>
             </section>
 
-             <!-- Card 3: CHECK -->
-            <section id="social-reflection-section" class="content-section reflection-section">
-                <h2 class="section-title">Check / Reflexão</h2>
-                <p>Reflita sobre sua saúde social e suas conexões hoje.</p>
-                
-                <div class="form-group">
-                    <label for="reflection-conexao-social">Sentimento de Conexão</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-conexao-social" data-key="sentimentoConexao" rows="3" placeholder="Hoje, eu me senti... (conectado(a), isolado(a)). O que contribuiu para esse sentimento?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-conexao-social" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+            <!-- Card 3: CHECK / ADJUST -->
+            <section class="content-section reflection-section">
+                <h2 class="section-title">Check / Adjust</h2>
+                <form class="reflection-form" data-category="Social">
+                    <div class="form-group">
+                        <label for="reflection-social-sleep">Como dormi esta noite? (Qualidade, sonhos, sentimentos ao acordar)</label>
+                        <textarea id="reflection-social-sleep" class="reflection-input" data-title="Reflexão do Sono"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-interacoes-sociais">Interações Sociais</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-interacoes-sociais" data-key="interacoes" rows="3" placeholder="Uma interação social que me deu energia hoje foi..."></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-interacoes-sociais" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-social-dayReview">O que correu bem hoje? O que poderia ter feito melhor? (Análise do dia)</label>
+                        <textarea id="reflection-social-dayReview" class="reflection-input" data-title="Análise do Dia"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-qualidade-amizades">Qualidade das Amizades</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-qualidade-amizades" data-key="qualidadeAmizades" rows="3" placeholder="Refletindo sobre minhas amizades, hoje eu nutri a conexão com..."></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-qualidade-amizades" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-social-bodyScan">Como me sinto no meu corpo agora? (Sensações, tensões, energia)</label>
+                        <textarea id="reflection-social-bodyScan" class="reflection-input" data-title="Escaneamento Corporal"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="reflection-social-mentalCheck">Que pensamentos ou emoções estão presentes? (Check-in mental)</label>
+                        <textarea id="reflection-social-mentalCheck" class="reflection-input" data-title="Check-in Mental"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflection-social-premeditation">O que posso enfrentar hoje/amanhã? O que está fora do meu controle? (Premeditatio Malorum)</label>
+                        <textarea id="reflection-social-premeditation" class="reflection-input" data-title="Premeditatio Malorum"></textarea>
+                    </div>
+                    <button type="submit" class="standard-button"><i class="fas fa-save"></i> Salvar Reflexões</button>
+                </form>
             </section>
-
         </main>
         <div class="back-button-wrapper">
             <button class="standard-button back-button" data-page="inicio"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>

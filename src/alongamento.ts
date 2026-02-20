@@ -11,7 +11,7 @@ declare global {
 /**
  * Sets up event listeners for the stretching page.
  */
-export function setupAlongamentoPage(): void {
+export function setup(): void {
     const page = document.getElementById('page-alongamento');
     if (!page) {
         console.warn("Stretching page container (#page-alongamento) not found.");
@@ -31,7 +31,7 @@ export function setupAlongamentoPage(): void {
  * This function is called by the router when the stretching page is shown.
  * Currently, there is no dynamic content to refresh.
  */
-export function showAlongamentoPage(): void {
+export function show(): void {
     // The page is static, so no specific actions are needed on show.
     // Ensure the page scrolls to the top on view.
     const mainContent = document.getElementById('main-content');

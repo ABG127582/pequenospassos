@@ -26,50 +26,6 @@
                     <button id="add-event-btn" class="standard-button"><i class="fas fa-plus"></i> Adicionar Evento</button>
                 </div>
             </section>
-            <section id="daily-reflection-section" class="content-section">
-                <h2 class="section-title">Revisão Diária Estoica</h2>
-                <p>Reserve um momento ao final do dia para esta meditação. Reflita sobre seu progresso, prepare-se para os desafios e cultive a resiliência.</p>
-                
-                <div class="form-group">
-                    <label for="reflection-sleep"><strong>Descanso:</strong> Como foi seu sono e descanso na noite anterior?</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-sleep" data-key="sleep" rows="3" placeholder="Avalie a qualidade do seu sono, se sentiu-se revigorado(a), etc."></textarea>
-                        <button type="button" id="reflection-sleep-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
-            
-                <div class="form-group">
-                    <label for="reflection-day-review"><strong>Revisão do Dia:</strong> Quais tarefas foram concluídas? Onde você se destacou e onde pode melhorar amanhã?</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-day-review" data-key="dayReview" rows="4" placeholder="Analise sua produtividade, interações e aprendizados do dia."></textarea>
-                        <button type="button" id="reflection-day-review-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
-            
-                <div class="form-group">
-                    <label for="reflection-body-scan"><strong>Escaneamento Corporal:</strong> Como está seu corpo? Sente alguma dor ou desconforto?</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-body-scan" data-key="bodyScan" rows="3" placeholder="Note tensões, dores ou sensações de bem-estar. O que seu corpo está comunicando?"></textarea>
-                        <button type="button" id="reflection-body-scan-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reflection-mental-check"><strong>Check-in Mental:</strong> Como você se sentiu hoje? Quais emoções predominaram?</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-mental-check" data-key="mentalCheck" rows="3" placeholder="Identifique seus estados emocionais. O que os causou? O que pode fazer para cultivar mais emoções positivas?"></textarea>
-                        <button type="button" id="reflection-mental-check-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
-            
-                <div class="form-group">
-                    <label for="reflection-premeditation"><strong>Premeditatio Malorum:</strong> O que de importante pode dar errado amanhã? Como você pode se preparar ou prevenir isso?</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-premeditation" data-key="premeditation" rows="4" placeholder="Antecipe adversidades de forma racional para reduzir a ansiedade e aumentar a preparação."></textarea>
-                        <button type="button" id="reflection-premeditation-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
-            </section>
         </main>
         
         <div class="back-button-wrapper">
@@ -91,7 +47,7 @@
                     <label for="task-description-input">Descrição:</label>
                     <div class="input-wrapper textarea-wrapper">
                         <textarea id="task-description-input" required rows="3"></textarea>
-                         <button type="button" id="schedule-task-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                        <button type="button" class="speech-to-text-btn" title="Digitar por Voz"><i class="fas fa-microphone"></i></button>
                     </div>
                 </div>
                 <div class="form-group" style="display: flex; gap: 15px;">

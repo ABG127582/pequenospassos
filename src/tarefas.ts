@@ -1,4 +1,8 @@
+
 import DOMPurify from 'dompurify';
+import { debounce, confirmAction, trapFocus } from './utils';
+import { STORAGE_KEYS } from './constants';
+import { storageService } from './storage';
 
 // --- TYPE DEFINITIONS specific to this module ---
 interface Task {
@@ -16,10 +20,8 @@ interface Task {
 declare global {
     interface Window {
         showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
-        saveItems: (storageKey: string, items: any) => void;
-        loadItems: (storageKey: string) => any;
-        getAISuggestionForInput: (prompt: string, targetInput: HTMLInputElement | HTMLTextAreaElement, button: HTMLButtonElement) => Promise<void>;
         Chart: any;
+        gamification: any; // Add generic gamification type
     }
 }
 
@@ -36,6 +38,8 @@ let currentView = 'checklist'; // 'checklist' or 'table'
 let categoryChart: any = null;
 const notifiedTaskIds = new Set<string>();
 let alarmInterval: number | undefined;
+let removeFocusTrap: (() => void) | null = null;
+let lastFocusedElement: HTMLElement | null = null;
 
 
 const priorityMap: { [key in 'low' | 'medium' | 'high']: string } = {
@@ -58,7 +62,6 @@ const elements: { [key: string]: HTMLElement | null | any } = {
     tableViewBtn: null,
     quickTaskInput: null,
     addTaskBtn: null,
-    quickTaskAIBtn: null,
     totalCountEl: null,
     completedCountEl: null,
     pendingCountEl: null,
@@ -78,8 +81,6 @@ const elements: { [key: string]: HTMLElement | null | any } = {
     modalTimeInput: null,
     modalPrioritySelect: null,
     modalCategorySelect: null,
-    modalTitleAIBtn: null,
-    modalDescriptionAIBtn: null,
     categoryChartCanvas: null,
     chartNoData: null,
 };
@@ -87,19 +88,22 @@ const elements: { [key: string]: HTMLElement | null | any } = {
 
 // --- Helper Functions ---
 const saveData = () => {
-    window.saveItems('tasksData', tasks);
-    window.saveItems('tasksCategories', categories);
+    storageService.set(STORAGE_KEYS.TASKS_DATA, tasks);
+    storageService.set(STORAGE_KEYS.TASKS_CATEGORIES, categories);
 };
 
 const loadData = () => {
-    tasks = window.loadItems('tasksData') || [];
-    categories = window.loadItems('tasksCategories') || ['Física', 'Mental', 'Financeira', 'Familiar', 'Profissional', 'Social', 'Espiritual', 'Preventiva'];
+    tasks = storageService.get<Task[]>(STORAGE_KEYS.TASKS_DATA) || [];
+    categories = storageService.get<string[]>(STORAGE_KEYS.TASKS_CATEGORIES) || ['Física', 'Mental', 'Financeira', 'Familiar', 'Profissional', 'Social', 'Espiritual', 'Preventiva'];
 };
 
 const openTaskModal = (task?: Task) => {
     if (!elements.taskModal || !elements.taskModalForm || !elements.taskModalTitle || !elements.modalCategorySelect) return;
     elements.taskModalForm.reset();
     
+    // Store the element that was focused before opening the modal
+    lastFocusedElement = document.activeElement as HTMLElement;
+
     elements.modalCategorySelect.innerHTML = '<option value="">Nenhuma</option>';
     categories.forEach(cat => {
         const option = document.createElement('option');
@@ -123,12 +127,27 @@ const openTaskModal = (task?: Task) => {
         elements.modalPrioritySelect!.value = 'medium';
     }
     elements.taskModal.style.display = 'flex';
+    elements.modalTitleInput?.focus(); // Set focus to the first input
+    
+    // Activate focus trap
+    removeFocusTrap = trapFocus(elements.taskModal);
+    
     setTimeout(() => elements.taskModal?.classList.add('visible'), 10);
 };
 
 const closeTaskModal = () => {
     if (!elements.taskModal) return;
     elements.taskModal.classList.remove('visible');
+
+    // Deactivate focus trap
+    if (removeFocusTrap) {
+        removeFocusTrap();
+        removeFocusTrap = null;
+    }
+
+    // Return focus to the last focused element
+    lastFocusedElement?.focus();
+
     setTimeout(() => { if (elements.taskModal) elements.taskModal.style.display = 'none'; }, 300);
 };
 
@@ -419,7 +438,7 @@ const renderChecklistView = (tasksToRender: Task[]) => {
     });
 };
 
-const handleActionClick = (e: Event) => {
+const handleActionClick = async (e: Event) => {
     const target = e.target as HTMLElement;
     const taskEl = target.closest('[data-task-id]') as HTMLElement;
     if (!taskEl) return;
@@ -439,7 +458,8 @@ const handleActionClick = (e: Event) => {
     if (!task) return;
 
     if (target.closest('.delete')) {
-        if (confirm(`Tem certeza que deseja excluir a tarefa "${task.title}"?`)) {
+        const confirmed = await confirmAction(`Tem certeza que deseja excluir a tarefa "${task.title}"?`);
+        if (confirmed) {
             tasks = tasks.filter(t => t.id !== taskId);
             saveData();
             render();
@@ -449,6 +469,15 @@ const handleActionClick = (e: Event) => {
         openTaskModal(task);
     } else if (target.matches('.task-checkbox, .task-checkbox *')) {
         task.completed = !task.completed;
+        
+        // GAMIFICATION INTEGRATION
+        if (task.completed && window.gamification) {
+            // Priority multiplier: High=30xp, Medium=20xp, Low=10xp
+            const xpMap = { high: 30, medium: 20, low: 10 };
+            const xp = xpMap[task.priority] || 10;
+            window.gamification.addXP(xp);
+        }
+
         saveData();
         render();
     }
@@ -474,7 +503,7 @@ const handleQuickAdd = () => {
     }
 };
 
-const handleCategoryAction = (e: Event) => {
+const handleCategoryAction = async (e: Event) => {
     const target = e.target as HTMLElement;
     if (target.id === 'add-category-btn') {
         const newCategory = prompt('Digite o nome da nova categoria:');
@@ -510,13 +539,13 @@ const checkDueTasks = () => {
 };
 
 const startAlarms = () => {
-    if (alarmInterval) clearInterval(alarmInterval);
-    notifiedTaskIds.clear(); // Clear notifications on each page load/setup
-    alarmInterval = setInterval(checkDueTasks, 60000); // Check every minute
+    if (alarmInterval) window.clearInterval(alarmInterval);
+    notifiedTaskIds.clear(); 
+    alarmInterval = window.setInterval(checkDueTasks, 60000); 
 };
 
 // --- Page Lifecycle Functions ---
-export function setupTarefasPage() {
+export function setup() {
     const page = document.getElementById('page-tarefas');
     if (!page) {
         console.error("Tarefas page container (#page-tarefas) not found.");
@@ -537,7 +566,6 @@ export function setupTarefasPage() {
     elements.tableViewBtn = page.querySelector('#table-view-btn');
     elements.quickTaskInput = page.querySelector('#quick-task-input');
     elements.addTaskBtn = page.querySelector('#add-task-btn');
-    elements.quickTaskAIBtn = page.querySelector('#quick-task-input-ai-btn');
     elements.totalCountEl = page.querySelector('#total-count');
     elements.completedCountEl = page.querySelector('#completed-count');
     elements.pendingCountEl = page.querySelector('#pending-count');
@@ -561,8 +589,6 @@ export function setupTarefasPage() {
     elements.modalTimeInput = document.getElementById('modal-task-time') as HTMLInputElement;
     elements.modalPrioritySelect = document.getElementById('modal-task-priority') as HTMLSelectElement;
     elements.modalCategorySelect = document.getElementById('modal-task-category') as HTMLSelectElement;
-    elements.modalTitleAIBtn = document.getElementById('modal-task-title-ai-btn') as HTMLButtonElement;
-    elements.modalDescriptionAIBtn = document.getElementById('modal-task-description-ai-btn') as HTMLButtonElement;
     
     // Check if any essential elements are missing
     for (const [key, value] of Object.entries(elements)) {
@@ -583,22 +609,17 @@ export function setupTarefasPage() {
         elements.taskModalCloseBtn?.addEventListener('click', closeTaskModal);
         elements.taskModalCancelBtn?.addEventListener('click', closeTaskModal);
         elements.taskModalForm?.addEventListener('submit', handleTaskFormSubmit);
-        elements.modalTitleAIBtn?.addEventListener('click', () => {
-            const prompt = "Sugira um título claro e conciso para uma tarefa, com no máximo 10 palavras.";
-            window.getAISuggestionForInput(prompt, elements.modalTitleInput!, elements.modalTitleAIBtn!);
-        });
-        elements.modalDescriptionAIBtn?.addEventListener('click', () => {
-            const currentTitle = elements.modalTitleInput!.value;
-            const prompt = `Com base no título da tarefa "${currentTitle || 'uma nova tarefa'}", gere uma descrição detalhada, incluindo o objetivo principal e possíveis subtarefas ou pontos a serem considerados.`;
-            window.getAISuggestionForInput(prompt, elements.modalDescriptionInput!, elements.modalDescriptionAIBtn!);
-        });
         elements.taskModal.dataset.handlerAttached = 'true';
     }
     
-    elements.searchInput?.addEventListener('input', () => {
-        currentSearch = elements.searchInput!.value;
+    const debouncedRender = debounce(() => {
         currentPage = 1;
         render();
+    }, 300);
+
+    elements.searchInput?.addEventListener('input', () => {
+        currentSearch = elements.searchInput!.value;
+        debouncedRender();
     });
 
     elements.filterSelect?.addEventListener('change', () => {
@@ -638,15 +659,10 @@ export function setupTarefasPage() {
         render();
     });
 
-    elements.quickTaskAIBtn?.addEventListener('click', () => {
-        const prompt = "Sugira um título de tarefa conciso e acionável. Por exemplo: 'Revisar o orçamento mensal' ou 'Agendar consulta médica'.";
-        window.getAISuggestionForInput(prompt, elements.quickTaskInput!, elements.quickTaskAIBtn!);
-    });
-
     startAlarms();
 }
 
-export function showTarefasPage() {
+export function show() {
     if (!elements.container) return;
     loadData();
     render();

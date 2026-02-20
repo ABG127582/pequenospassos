@@ -1,14 +1,13 @@
 
-
 <div class="page-section" id="page-familiar">
     <div class="container">
         <header>
-            <h1>Planejamento de Saúde Familiar</h1>
+            <h1>PDCA Saúde Familiar</h1>
         </header>
         <main>
              <!-- Card 1: PLAN -->
             <section class="mind-map-section content-section">
-                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+                <h2 class="section-title">Planejamento (Plan)</h2>
                 <details>
                     <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Fundações dos Relacionamentos</summary>
                     <ul>
@@ -33,56 +32,70 @@
                         <li>Aumentar a Razão Mágica (5 interações positivas para 1 negativa)</li>
                     </ul>
                 </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Recursos Úteis</summary>
+                    <ul class="recursos-list" style="padding-left: 20px; list-style: disc;">
+                        <li><a href="https://www.gottman.com/" target="_blank" rel="noopener noreferrer">The Gottman Institute</a> - Pesquisa científica sobre relacionamentos.</li>
+                        <li><a href="https://www.psychologytoday.com/us/basics/family-dynamics" target="_blank" rel="noopener noreferrer">Psychology Today (Family)</a> - Artigos sobre dinâmica familiar.</li>
+                        <li><a href="https://www.ahaparenting.com/" target="_blank" rel="noopener noreferrer">Aha! Parenting</a> - Conselhos de parentalidade baseados em evidências.</li>
+                        <li><a href="https://www.empoweringparents.com/" target="_blank" rel="noopener noreferrer">Empowering Parents</a> - Ferramentas para desafios de comportamento infantil.</li>
+                        <li><a href="https://childmind.org/" target="_blank" rel="noopener noreferrer">Child Mind Institute</a> - Recursos sobre saúde mental infantil e parentalidade.</li>
+                        <li><a href="https://www.familylife.com/" target="_blank" rel="noopener noreferrer">FamilyLife</a> - Recursos para casamentos e famílias.</li>
+                        <li><a href="https://www.focusonthefamily.com/" target="_blank" rel="noopener noreferrer">Focus on the Family</a> - Ajuda e conselhos para famílias.</li>
+                        <li><a href="https://www.parents.com/" target="_blank" rel="noopener noreferrer">Parents.com</a> - Guia completo de parentalidade.</li>
+                        <li><a href="https://www.zerotothree.org/" target="_blank" rel="noopener noreferrer">ZERO TO THREE</a> - Foco no desenvolvimento da primeira infância.</li>
+                        <li><a href="https://www.ncfr.org/resources" target="_blank" rel="noopener noreferrer">National Council on Family Relations</a> - Pesquisa e prática sobre famílias.</li>
+                    </ul>
+                </details>
                 <div style="margin-top: 25px;">
                     <button class="standard-button" data-page="leitura-guia-familiar">
                         <i class="fas fa-book-open"></i> Aprofundamento
                     </button>
                 </div>
             </section>
-            
+
             <!-- Card 2: DO -->
             <section class="content-section">
                 <h2 class="section-title">Do</h2>
-                 <div id="metas-familiares" class="form-section">
+                <div id="metas-familiares" class="form-section">
                     <ul id="familiar-metas-list" class="lista-planejamento"></ul>
                     <form id="familiar-metas-form" style="margin-top: 20px;">
-                        <div class="input-wrapper">
+                        <div class="input-wrapper has-multiple-btns">
                             <input type="text" id="familiar-meta-input" required placeholder="Adicionar nova rotina personalizada...">
-                            <button type="button" id="familiar-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                            <button type="button" class="ai-suggestion-btn" title="Sugerir Meta com IA"><i class="fas fa-wand-magic-sparkles"></i></button>
+                            <button type="button" class="speech-to-text-btn" title="Digitar por Voz"><i class="fas fa-microphone"></i></button>
                         </div>
                         <button type="submit" class="standard-button">Adicionar</button>
                     </form>
                 </div>
             </section>
 
-            <!-- Card 3: CHECK -->
-            <section id="familiar-reflection-section" class="content-section reflection-section">
-                <h2 class="section-title">Check / Reflexão</h2>
-                <p>Reflita sobre suas interações e a saúde dos seus laços familiares hoje.</p>
-                
-                <div class="form-group">
-                    <label for="reflection-interacoes">Qualidade das Interações</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-interacoes" data-key="qualidadeInteracoes" rows="3" placeholder="Hoje, minhas conversas com a família foram..."></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-interacoes" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+            <!-- Card 3: CHECK / ADJUST -->
+            <section class="content-section reflection-section">
+                <h2 class="section-title">Check / Adjust</h2>
+                <form class="reflection-form" data-category="Familiar">
+                    <div class="form-group">
+                        <label for="reflection-familiar-sleep">Como dormi esta noite? (Qualidade, sonhos, sentimentos ao acordar)</label>
+                        <textarea id="reflection-familiar-sleep" class="reflection-input" data-title="Reflexão do Sono"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-conexao">Momentos de Conexão</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-conexao" data-key="momentosConexao" rows="3" placeholder="Houve um momento especial de conexão hoje quando..."></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-conexao" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-familiar-dayReview">O que correu bem hoje? O que poderia ter feito melhor? (Análise do dia)</label>
+                        <textarea id="reflection-familiar-dayReview" class="reflection-input" data-title="Análise do Dia"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-conflitos">Gestão de Conflitos</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-conflitos" data-key="gestaoConflitos" rows="3" placeholder="Lidei com um desacordo de forma... Poderia ter melhorado em..."></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-conflitos" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-familiar-bodyScan">Como me sinto no meu corpo agora? (Sensações, tensões, energia)</label>
+                        <textarea id="reflection-familiar-bodyScan" class="reflection-input" data-title="Escaneamento Corporal"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="reflection-familiar-mentalCheck">Que pensamentos ou emoções estão presentes? (Check-in mental)</label>
+                        <textarea id="reflection-familiar-mentalCheck" class="reflection-input" data-title="Check-in Mental"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflection-familiar-premeditation">O que posso enfrentar hoje/amanhã? O que está fora do meu controle? (Premeditatio Malorum)</label>
+                        <textarea id="reflection-familiar-premeditation" class="reflection-input" data-title="Premeditatio Malorum"></textarea>
+                    </div>
+                    <button type="submit" class="standard-button"><i class="fas fa-save"></i> Salvar Reflexões</button>
+                </form>
             </section>
         </main>
         <div class="back-button-wrapper">

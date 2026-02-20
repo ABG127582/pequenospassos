@@ -1,4 +1,7 @@
 import DOMPurify from 'dompurify';
+import { storageService } from './storage';
+import { STORAGE_KEYS } from './constants';
+import { confirmAction } from './utils';
 
 // --- TYPE DEFINITIONS ---
 export type TaskCategory = 'Física' | 'Mental' | 'Financeira' | 'Familiar' | 'Profissional' | 'Social' | 'Espiritual' | 'Preventiva' | 'Pessoal';
@@ -29,9 +32,6 @@ interface DailyPlan {
 declare global {
     interface Window {
         showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
-        saveItems: (storageKey: string, items: any) => void;
-        loadItems: (storageKey: string) => any;
-        getAISuggestionForInput: (prompt: string, targetInput: HTMLInputElement | HTMLTextAreaElement, button: HTMLButtonElement) => Promise<void>;
     }
 }
 
@@ -43,24 +43,23 @@ let editingTaskId: string | null = null;
 
 const defaultPlan: DailyPlan = {
     tasks: [
-        { id: '1', startTime: '05:00', endTime: '06:00', description: 'Acordar, Hidratação e Leitura Silenciosa', completed: false, category: 'Mental' },
-        { id: '2', startTime: '06:00', endTime: '07:00', description: 'Exercício Físico (Cardio ou Força)', completed: false, category: 'Física' },
-        { id: '3', startTime: '07:00', endTime: '08:00', description: 'Café da Manhã Nutritivo e Suplementos', completed: false, category: 'Preventiva' },
-        { id: '4', startTime: '08:00', endTime: '09:00', description: 'Planejar o Dia e Definir 3 MITs (Tarefas Mais Importantes)', completed: false, category: 'Profissional' },
-        { id: '5', startTime: '09:00', endTime: '11:00', description: 'Bloco de Trabalho Focado 1 (Deep Work)', completed: false, category: 'Profissional' },
-        { id: '6', startTime: '11:00', endTime: '11:15', description: 'Pausa e Alongamento', completed: false, category: 'Física' },
-        { id: '7', startTime: '11:15', endTime: '13:00', description: 'Bloco de Trabalho Focado 2', completed: false, category: 'Profissional' },
-        { id: '8', startTime: '13:00', endTime: '14:00', description: 'Almoço Consciente (Sem distrações)', completed: false, category: 'Mental' },
-        { id: '9', startTime: '14:00', endTime: '15:00', description: 'Tarefas Administrativas e E-mails', completed: false, category: 'Profissional' },
+        { id: '1', startTime: '06:00', endTime: '06:30', description: 'Acordar, Hidratação e Meditação', completed: false, category: 'Mental' },
+        { id: '2', startTime: '06:30', endTime: '07:30', description: 'Exercício Físico', completed: false, category: 'Física' },
+        { id: '3', startTime: '07:30', endTime: '08:30', description: 'Café da Manhã Nutritivo', completed: false, category: 'Preventiva' },
+        { id: '4', startTime: '08:30', endTime: '09:00', description: 'Planejar o Dia (Definir 3 Prioridades)', completed: false, category: 'Profissional' },
+        { id: '5', startTime: '09:00', endTime: '10:30', description: 'Bloco de Trabalho Focado 1', completed: false, category: 'Profissional' },
+        { id: '6', startTime: '10:30', endTime: '10:45', description: 'Pausa Curta (Café, Alongamento)', completed: false, category: 'Física' },
+        { id: '7', startTime: '10:45', endTime: '12:00', description: 'Bloco de Trabalho Focado 2', completed: false, category: 'Profissional' },
+        { id: '8', startTime: '12:00', endTime: '13:00', description: 'Almoço Consciente (Sem telas)', completed: false, category: 'Mental' },
+        { id: '9', startTime: '13:00', endTime: '15:00', description: 'Trabalho Focado ou Reuniões', completed: false, category: 'Profissional' },
         { id: '10', startTime: '15:00', endTime: '15:15', description: 'Pausa para Meditação ou Respiração', completed: false, category: 'Mental' },
-        { id: '11', startTime: '15:15', endTime: '17:00', description: 'Aprendizado Contínuo / Desenvolver Habilidade', completed: false, category: 'Profissional' },
-        { id: '12', startTime: '17:00', endTime: '17:30', description: 'Revisão Financeira Rápida', completed: false, category: 'Financeira' },
-        { id: '13', startTime: '17:30', endTime: '18:00', description: 'Ritual de Encerramento do Trabalho', completed: false, category: 'Mental' },
-        { id: '14', startTime: '18:00', endTime: '19:00', description: 'Conexão Social (Ligar para amigo/familiar)', completed: false, category: 'Social' },
-        { id: '15', startTime: '19:00', endTime: '20:30', description: 'Jantar em Família e Tempo de Qualidade', completed: false, category: 'Familiar' },
-        { id: '16', startTime: '20:30', endTime: '21:30', description: 'Hobby / Tempo Livre Criativo', completed: false, category: 'Pessoal' },
-        { id: '17', startTime: '21:30', endTime: '22:00', description: 'Leitura Relaxante (Sem telas)', completed: false, category: 'Mental' },
-        { id: '18', startTime: '22:00', endTime: '22:15', description: 'Diário de Gratidão e Reflexão do Dia', completed: false, category: 'Espiritual' },
+        { id: '11', startTime: '15:15', endTime: '17:00', description: 'Tarefas Administrativas e E-mails', completed: false, category: 'Profissional' },
+        { id: '12', startTime: '17:00', endTime: '17:30', description: 'Ritual de Encerramento do Trabalho', completed: false, category: 'Mental' },
+        { id: '13', startTime: '17:30', endTime: '19:00', description: 'Tempo Livre / Hobby / Social', completed: false, category: 'Pessoal' },
+        { id: '14', startTime: '19:00', endTime: '20:00', description: 'Jantar e Conexão Familiar', completed: false, category: 'Familiar' },
+        { id: '15', startTime: '20:00', endTime: '21:00', description: 'Aprendizado (Leitura, Curso)', completed: false, category: 'Profissional' },
+        { id: '16', startTime: '21:00', endTime: '22:00', description: 'Relaxamento (Sem telas)', completed: false, category: 'Mental' },
+        { id: '17', startTime: '22:00', endTime: '22:15', description: 'Diário de Gratidão / Reflexão do Dia', completed: false, category: 'Espiritual' },
     ],
     reflection: {
         sleep: '',
@@ -78,17 +77,6 @@ const elements = {
     progressText: null as SVGTextElement | null,
     scheduleList: null as HTMLUListElement | null,
     addEventBtn: null as HTMLButtonElement | null,
-    reflectionContainer: null as HTMLElement | null,
-    reflectionSleepInput: null as HTMLTextAreaElement | null,
-    reflectionDayReviewInput: null as HTMLTextAreaElement | null,
-    reflectionBodyScanInput: null as HTMLTextAreaElement | null,
-    reflectionMentalCheckInput: null as HTMLTextAreaElement | null,
-    reflectionPremeditationInput: null as HTMLTextAreaElement | null,
-    reflectionSleepAIBtn: null as HTMLButtonElement | null,
-    reflectionDayReviewAIBtn: null as HTMLButtonElement | null,
-    reflectionBodyScanAIBtn: null as HTMLButtonElement | null,
-    reflectionMentalCheckAIBtn: null as HTMLButtonElement | null,
-    reflectionPremeditationAIBtn: null as HTMLButtonElement | null,
     // Modal Elements
     modal: null as HTMLElement | null,
     modalTitle: null as HTMLElement | null,
@@ -101,18 +89,17 @@ const elements = {
     modalStartTimeInput: null as HTMLInputElement | null,
     modalEndTimeInput: null as HTMLInputElement | null,
     modalCategorySelect: null as HTMLSelectElement | null,
-    modalAIBtn: null as HTMLButtonElement | null,
 };
 
 // --- DATA HANDLING ---
-const getStorageKey = (date: string): string => `daily-plan-${date}`;
+const getStorageKey = (date: string): string => `${STORAGE_KEYS.DAILY_PLAN_PREFIX}${date}`;
 
 const loadPlan = () => {
     // Ensure currentDate is set before loading
     if (!currentDate) {
-        currentDate = localStorage.getItem('daily-plan-last-date') || new Date().toISOString().split('T')[0];
+        currentDate = storageService.get(STORAGE_KEYS.DAILY_PLAN_LAST_DATE) || new Date().toISOString().split('T')[0];
     }
-    const savedPlan = window.loadItems(getStorageKey(currentDate));
+    const savedPlan = storageService.get<DailyPlan>(getStorageKey(currentDate));
     if (savedPlan && savedPlan.tasks && savedPlan.tasks.length > 0) {
         dailyPlan = savedPlan;
         // Ensure reflection object exists for backward compatibility
@@ -125,7 +112,7 @@ const loadPlan = () => {
 };
 
 const savePlan = () => {
-    window.saveItems(getStorageKey(currentDate), dailyPlan);
+    storageService.set(getStorageKey(currentDate), dailyPlan);
 };
 
 
@@ -188,11 +175,6 @@ const renderSchedule = () => {
 const renderPage = () => {
     loadPlan();
     renderSchedule();
-    if (elements.reflectionSleepInput) elements.reflectionSleepInput.value = dailyPlan.reflection.sleep;
-    if (elements.reflectionDayReviewInput) elements.reflectionDayReviewInput.value = dailyPlan.reflection.dayReview;
-    if (elements.reflectionBodyScanInput) elements.reflectionBodyScanInput.value = dailyPlan.reflection.bodyScan;
-    if (elements.reflectionMentalCheckInput) elements.reflectionMentalCheckInput.value = dailyPlan.reflection.mentalCheck;
-    if (elements.reflectionPremeditationInput) elements.reflectionPremeditationInput.value = dailyPlan.reflection.premeditation;
 };
 
 // --- MODAL HANDLING ---
@@ -229,7 +211,6 @@ const closeModal = () => {
 
 const handleSaveTask = (e: Event) => {
     e.preventDefault();
-    loadPlan(); // Ensure we have the latest data for the current date
     
     const description = elements.modalDescriptionInput!.value.trim();
     if (!description) {
@@ -258,15 +239,16 @@ const handleSaveTask = (e: Event) => {
     }
 
     savePlan();
-    renderSchedule(); // Only re-render the schedule if the modal is on the daily plan page
+    renderSchedule();
     closeModal();
     window.showToast('Evento salvo no plano diário!', 'success');
 };
 
 
-const handleDeleteTask = () => {
+const handleDeleteTask = async () => {
     if (!editingTaskId) return;
-    if (confirm('Tem certeza que deseja excluir este evento?')) {
+    const confirmed = await confirmAction('Tem certeza que deseja excluir este evento?');
+    if (confirmed) {
         dailyPlan.tasks = dailyPlan.tasks.filter(t => t.id !== editingTaskId);
         savePlan();
         renderSchedule();
@@ -279,7 +261,7 @@ const handleDeleteTask = () => {
 const handleDateChange = () => {
     if (!elements.dateInput) return;
     currentDate = elements.dateInput.value;
-    localStorage.setItem('daily-plan-last-date', currentDate);
+    storageService.set(STORAGE_KEYS.DAILY_PLAN_LAST_DATE, currentDate);
     renderPage();
 };
 
@@ -309,7 +291,7 @@ const handleScheduleClick = (e: Event) => {
 };
 
 // --- LIFECYCLE FUNCTIONS ---
-export function setupPlanejamentoDiarioPage() {
+export function setup() {
     elements.pageContainer = document.getElementById('page-planejamento-diario');
     if (!elements.pageContainer) return;
 
@@ -320,18 +302,6 @@ export function setupPlanejamentoDiarioPage() {
     elements.scheduleList = elements.pageContainer.querySelector('#schedule-hours-list');
     elements.addEventBtn = document.getElementById('add-event-btn') as HTMLButtonElement;
     
-    elements.reflectionContainer = elements.pageContainer.querySelector('#daily-reflection-section');
-    elements.reflectionSleepInput = elements.pageContainer.querySelector('#reflection-sleep');
-    elements.reflectionDayReviewInput = elements.pageContainer.querySelector('#reflection-day-review');
-    elements.reflectionBodyScanInput = elements.pageContainer.querySelector('#reflection-body-scan');
-    elements.reflectionMentalCheckInput = elements.pageContainer.querySelector('#reflection-mental-check');
-    elements.reflectionPremeditationInput = elements.pageContainer.querySelector('#reflection-premeditation');
-    elements.reflectionSleepAIBtn = elements.pageContainer.querySelector('#reflection-sleep-ai-btn');
-    elements.reflectionDayReviewAIBtn = elements.pageContainer.querySelector('#reflection-day-review-ai-btn');
-    elements.reflectionBodyScanAIBtn = elements.pageContainer.querySelector('#reflection-body-scan-ai-btn');
-    elements.reflectionMentalCheckAIBtn = elements.pageContainer.querySelector('#reflection-mental-check-ai-btn');
-    elements.reflectionPremeditationAIBtn = elements.pageContainer.querySelector('#reflection-premeditation-ai-btn');
-
     // Modal elements are in the global scope (index.html), so we search the whole document
     elements.modal = document.getElementById('schedule-task-modal');
     if (elements.modal) {
@@ -345,47 +315,12 @@ export function setupPlanejamentoDiarioPage() {
         elements.modalStartTimeInput = elements.modal.querySelector('#task-start-time-input');
         elements.modalEndTimeInput = elements.modal.querySelector('#task-end-time-input');
         elements.modalCategorySelect = elements.modal.querySelector('#task-category-select');
-        elements.modalAIBtn = elements.modal.querySelector('#schedule-task-ai-btn');
     }
 
     // Attach event listeners
     elements.dateInput?.addEventListener('change', handleDateChange);
     elements.addEventBtn?.addEventListener('click', () => openModal());
     elements.scheduleList?.addEventListener('click', handleScheduleClick);
-    
-    elements.reflectionContainer?.addEventListener('input', (e) => {
-        const target = e.target as HTMLTextAreaElement;
-        if (target.tagName === 'TEXTAREA' && target.dataset.key) {
-            const key = target.dataset.key as keyof StoicReflection;
-            dailyPlan.reflection[key] = target.value;
-            savePlan(); // Autosave
-        }
-    });
-
-    elements.reflectionSleepAIBtn?.addEventListener('click', () => {
-        const prompt = "Com base na informação 'dormi 7 horas mas acordei uma vez no meio da noite', escreva uma breve reflexão sobre a qualidade do sono, mencionando a interrupção mas focando na duração razoável.";
-        window.getAISuggestionForInput(prompt, elements.reflectionSleepInput!, elements.reflectionSleepAIBtn!);
-    });
-
-    elements.reflectionDayReviewAIBtn?.addEventListener('click', () => {
-        const prompt = "Escreva uma breve reflexão sobre um dia de trabalho produtivo, mencionando a conclusão de tarefas importantes, mas também um ponto a melhorar para amanhã, como o gerenciamento de pequenas interrupções.";
-        window.getAISuggestionForInput(prompt, elements.reflectionDayReviewInput!, elements.reflectionDayReviewAIBtn!);
-    });
-
-    elements.reflectionBodyScanAIBtn?.addEventListener('click', () => {
-        const prompt = "Descreva uma breve reflexão de escaneamento corporal, notando uma leve tensão nos ombros e costas devido ao trabalho no computador, e sugerindo um alongamento rápido como ação corretiva.";
-        window.getAISuggestionForInput(prompt, elements.reflectionBodyScanInput!, elements.reflectionBodyScanAIBtn!);
-    });
-    
-    elements.reflectionMentalCheckAIBtn?.addEventListener('click', () => {
-        const prompt = "Escreva uma breve reflexão de check-in mental sobre um dia com sentimento predominante de foco, mas com um breve momento de ansiedade antes de uma reunião, e como a respiração ajudou a recentralizar.";
-        window.getAISuggestionForInput(prompt, elements.reflectionMentalCheckInput!, elements.reflectionMentalCheckAIBtn!);
-    });
-
-    elements.reflectionPremeditationAIBtn?.addEventListener('click', () => {
-        const prompt = "Crie um exemplo de 'Premeditatio Malorum' para uma importante apresentação no trabalho amanhã. Antecipe dois possíveis problemas (ex: falha técnica do projetor, uma pergunta difícil da diretoria) e sugira um plano de contingência para cada um.";
-        window.getAISuggestionForInput(prompt, elements.reflectionPremeditationInput!, elements.reflectionPremeditationAIBtn!);
-    });
     
     // Modal Listeners - IDEMPOTENT SETUP
     if (elements.modal && !elements.modal.dataset.handlerAttached) {
@@ -394,16 +329,11 @@ export function setupPlanejamentoDiarioPage() {
         elements.modalForm?.addEventListener('submit', handleSaveTask);
         elements.modalDeleteBtn?.addEventListener('click', handleDeleteTask);
     
-        elements.modalAIBtn?.addEventListener('click', () => {
-            const prompt = "Sugira uma tarefa para um planejamento diário, como 'Reunião de alinhamento com a equipe' ou 'Preparar o jantar'.";
-            window.getAISuggestionForInput(prompt, elements.modalDescriptionInput!, elements.modalAIBtn!);
-        });
-
         elements.modal.dataset.handlerAttached = 'true';
     }
 }
 
-export function showPlanejamentoDiarioPage() {
+export function show() {
     if (!elements.pageContainer || !elements.dateInput) {
         // If the page is not fully loaded, setup might not have run.
         // This can happen if user navigates away quickly.
@@ -411,7 +341,7 @@ export function showPlanejamentoDiarioPage() {
         return;
     };
 
-    currentDate = localStorage.getItem('daily-plan-last-date') || new Date().toISOString().split('T')[0];
+    currentDate = storageService.get(STORAGE_KEYS.DAILY_PLAN_LAST_DATE) || new Date().toISOString().split('T')[0];
     elements.dateInput.value = currentDate;
     
     renderPage();

@@ -1,34 +1,17 @@
-import DOMPurify from 'dompurify';
+
 import { openModal as openScheduleModal, TaskCategory } from './planejamento-diario';
-
-// Type definitions
-interface Goal {
-    id: string;
-    text: string;
-    completed: boolean;
-    time?: string;
-}
-
-interface EspiritualReflection {
-    conexaoProposito: string;
-    praticasContemplativas: string;
-    momentosGratidao: string;
-}
+import { storageService } from './storage';
+import { STORAGE_KEYS } from './constants';
+import { GoalManager, Goal } from './goalManager';
 
 // Re-declare window interface for global functions from index.tsx
 declare global {
     interface Window {
         showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
-        saveItems: (storageKey: string, items: any) => void;
-        loadItems: (storageKey: string) => any;
-        getAISuggestionForInput: (prompt: string, targetInput: HTMLInputElement | HTMLTextAreaElement, button: HTMLButtonElement) => Promise<void>;
     }
 }
 
-// --- Module-scoped state ---
-let goals: Goal[] = [];
-const GOALS_STORAGE_KEY = 'espiritualGoals';
-let reflection: EspiritualReflection = { conexaoProposito: '', praticasContemplativas: '', momentosGratidao: '' };
+let goalManager: GoalManager | null = null;
 
 const defaultGoals: Goal[] = [
     { id: 'espiritual-1', text: 'Praticar 10 minutos de meditação Mindfulness', completed: false },
@@ -37,78 +20,9 @@ const defaultGoals: Goal[] = [
     { id: 'espiritual-4', text: 'Passar um tempo na natureza observando os detalhes ao redor (prática de "Awe")', completed: false },
 ];
 
-// --- DOM Elements ---
 const elements = {
     pageContainer: null as HTMLElement | null,
-    goalsList: null as HTMLUListElement | null,
-    goalsForm: null as HTMLFormElement | null,
-    goalInput: null as HTMLInputElement | null,
-    goalAIBtn: null as HTMLButtonElement | null,
-    actionHub: null as HTMLElement | null,
-    // Reflection elements
-    reflectionSection: null as HTMLElement | null,
-    reflectionInputs: new Map<string, HTMLTextAreaElement>(),
-    reflectionAIBtns: new Map<string, HTMLButtonElement>(),
-};
-
-const getReflectionStorageKey = () => `espiritualReflection-${new Date().toISOString().split('T')[0]}`;
-
-// --- RENDER FUNCTION ---
-const renderGoals = () => {
-    if (!elements.goalsList) return;
-    elements.goalsList.innerHTML = '';
-
-    if (goals.length === 0) {
-        elements.goalsList.innerHTML = '<li class="empty-list-placeholder">Nenhuma tarefa ou objetivo definido.</li>';
-        return;
-    }
-
-    goals.forEach(goal => {
-        const li = document.createElement('li');
-        li.className = goal.completed ? 'completed' : '';
-        li.dataset.id = goal.id;
-        li.innerHTML = `
-            <input type="checkbox" class="task-checkbox" ${goal.completed ? 'checked' : ''} id="task-${goal.id}" aria-labelledby="task-label-${goal.id}">
-            <label for="task-${goal.id}" class="item-text" id="task-label-${goal.id}">${DOMPurify.sanitize(goal.text)}</label>
-            ${goal.time ? `<span class="item-time"><i class="fas fa-clock"></i> ${goal.time}</span>` : ''}
-            <div class="item-actions">
-                <button class="action-btn delete-btn delete" aria-label="Apagar objetivo"><i class="fas fa-trash"></i></button>
-            </div>
-        `;
-        elements.goalsList!.appendChild(li);
-    });
-};
-
-// --- EVENT HANDLERS ---
-const handleGoalAction = (e: Event) => {
-    const target = e.target as HTMLElement;
-    const li = target.closest('li');
-    if (!li || !li.dataset.id) return;
-
-    const goalId = li.dataset.id;
-    const goalIndex = goals.findIndex(g => g.id === goalId);
-    if (goalIndex === -1) return;
-
-    if (target.matches('.task-checkbox') || target.closest('.item-text')) {
-        goals[goalIndex].completed = !goals[goalIndex].completed;
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
-    } else if (target.closest('.delete-btn')) {
-        goals.splice(goalIndex, 1);
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
-    }
-};
-
-const handleAddGoal = (e: Event) => {
-    e.preventDefault();
-    const text = elements.goalInput!.value.trim();
-    if (text) {
-        goals.unshift({ id: Date.now().toString(), text, completed: false });
-        elements.goalInput!.value = '';
-        window.saveItems(GOALS_STORAGE_KEY, goals);
-        renderGoals();
-    }
+    reflectionForm: null as HTMLFormElement | null,
 };
 
 const handleActionHubClick = (e: Event) => {
@@ -127,67 +41,71 @@ const handleActionHubClick = (e: Event) => {
     }
 };
 
+function setupReflectionForm() {
+    if (!elements.reflectionForm) return;
+
+    elements.reflectionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const textareas = elements.reflectionForm!.querySelectorAll<HTMLTextAreaElement>('.reflection-input');
+        const category = elements.reflectionForm!.dataset.category as any;
+        let savedCount = 0;
+
+        const allReflections = storageService.get<any[]>(STORAGE_KEYS.UNIFIED_REFLECTIONS) || [];
+
+        textareas.forEach(textarea => {
+            const text = textarea.value.trim();
+            if (text) {
+                const now = new Date();
+                const newReflection = {
+                    id: `${now.getTime()}-${Math.random()}`,
+                    category: category,
+                    title: textarea.dataset.title || 'Reflexão',
+                    text: text,
+                    date: now.toISOString().split('T')[0],
+                    timestamp: now.getTime()
+                };
+                allReflections.push(newReflection);
+                textarea.value = ''; // Clear after saving
+                savedCount++;
+            }
+        });
+        
+        if (savedCount > 0) {
+            storageService.set(STORAGE_KEYS.UNIFIED_REFLECTIONS, allReflections);
+            window.showToast(`${savedCount} reflex${savedCount > 1 ? 'ões salvas' : 'ão salva'} com sucesso!`, 'success');
+        } else {
+            window.showToast('Nenhuma reflexão preenchida para salvar.', 'info');
+        }
+    });
+}
+
+
 // --- LIFECYCLE FUNCTIONS ---
-export function setupEspiritualPage() {
+export function setup() {
     const page = document.getElementById('page-espiritual');
     if (!page) return;
 
     elements.pageContainer = page;
-    elements.goalsList = page.querySelector('#espiritual-metas-list');
-    elements.goalsForm = page.querySelector('#espiritual-metas-form');
-    elements.goalInput = page.querySelector('#espiritual-meta-input');
-    elements.goalAIBtn = page.querySelector('#espiritual-meta-input-ai-btn');
-    elements.reflectionSection = page.querySelector('#espiritual-reflection-section');
+    elements.reflectionForm = page.querySelector('.reflection-form');
     
-    elements.goalsForm?.addEventListener('submit', handleAddGoal);
-    elements.goalsList?.addEventListener('click', handleGoalAction);
-    
-    // Action Hub is within the `do-action-hub` ID, but we grab the parent for event delegation
     const actionHubContainer = page.querySelector('.content-section');
     actionHubContainer?.addEventListener('click', handleActionHubClick);
+    
+    // Initializing Goal Manager
+    goalManager = new GoalManager(
+        'page-espiritual',
+        STORAGE_KEYS.ESPIRITUAL_GOALS,
+        'espiritual-metas-list',
+        'espiritual-metas-form',
+        'espiritual-meta-input',
+        defaultGoals,
+        'Espiritual'
+    );
+    goalManager.setup();
 
-    elements.goalAIBtn?.addEventListener('click', () => {
-        const prompt = "Sugira um objetivo de saúde espiritual, como 'Meditar 10 minutos por dia' ou 'Escrever três coisas pelas quais sou grato todas as noites'.";
-        window.getAISuggestionForInput(prompt, elements.goalInput!, elements.goalAIBtn!);
-    });
-
-    // Setup reflection section
-    if (elements.reflectionSection) {
-        elements.reflectionSection.querySelectorAll<HTMLTextAreaElement>('textarea[data-key]').forEach(input => {
-            const key = input.dataset.key as keyof EspiritualReflection;
-            elements.reflectionInputs.set(key, input);
-            input.addEventListener('input', () => {
-                reflection[key] = input.value;
-                window.saveItems(getReflectionStorageKey(), reflection);
-            });
-        });
-
-        elements.reflectionSection.querySelectorAll<HTMLButtonElement>('button.ai-suggestion-btn').forEach(btn => {
-            const targetId = btn.dataset.target;
-            if (targetId) {
-                const targetInput = document.getElementById(targetId) as HTMLTextAreaElement;
-                if (targetInput) {
-                    const promptMap: { [key: string]: string } = {
-                        'reflection-proposito': "Escreva uma breve reflexão sobre um momento em que me senti alinhado com meus valores ou propósito, como ajudar um colega.",
-                        'reflection-praticas': "Descreva a sensação após uma breve meditação, focando na calma e clareza mental que ela trouxe.",
-                        'reflection-gratidao': "Gere um exemplo de reflexão de gratidão, mencionando algo simples como o sabor do café da manhã ou a beleza de um dia ensolarado."
-                    };
-                    btn.addEventListener('click', () => {
-                        window.getAISuggestionForInput(promptMap[targetId], targetInput, btn);
-                    });
-                }
-            }
-        });
-    }
+    setupReflectionForm();
 }
 
-export function showEspiritualPage() {
-    const savedGoals = window.loadItems(GOALS_STORAGE_KEY);
-    goals = (savedGoals && savedGoals.length > 0) ? savedGoals : defaultGoals;
-    renderGoals();
-
-    reflection = window.loadItems(getReflectionStorageKey()) || { conexaoProposito: '', praticasContemplativas: '', momentosGratidao: '' };
-    elements.reflectionInputs.forEach((input, key) => {
-        input.value = reflection[key as keyof EspiritualReflection] || '';
-    });
+export function show() {
+    goalManager?.show();
 }

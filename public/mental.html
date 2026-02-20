@@ -1,14 +1,17 @@
 
-
 <div class="page-section" id="page-mental">
     <div class="container">
         <header>
-            <h1>Planejamento de Saúde Mental</h1>
+            <h1>PDCA Saúde Mental</h1>
         </header>
+        <nav class="pdca-nav">
+            <a href="#plan-section" class="pdca-nav-btn">Plan</a>
+            <a href="#do-section" class="pdca-nav-btn">Do</a>
+        </nav>
         <main>
-            <!-- Card 1: PLAN -->
-            <section class="mind-map-section content-section">
-                <h2 class="section-title">Planejamento / Mapa Mental (Plan)</h2>
+             <!-- Card 1: PLAN -->
+            <section id="plan-section" class="mind-map-section content-section">
+                <h2 class="section-title">Planejamento (Plan)</h2>
                 <details>
                     <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Equilíbrio Emocional (A Cidadela Interior)</summary>
                     <ul>
@@ -53,56 +56,70 @@
                         <li>Fundações Biológicas (Sono, Movimento, Alimentação)</li>
                     </ul>
                 </details>
+                <details>
+                    <summary><svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>Recursos Úteis</summary>
+                    <ul class="recursos-list" style="padding-left: 20px; list-style: disc;">
+                        <li><a href="https://www.nimh.nih.gov/" target="_blank" rel="noopener noreferrer">National Institute of Mental Health (NIMH)</a> - Pesquisa e informação sobre transtornos mentais.</li>
+                        <li><a href="https://www.psychologytoday.com/" target="_blank" rel="noopener noreferrer">Psychology Today</a> - Artigos e diretório de terapeutas.</li>
+                        <li><a href="https://www.apa.org/" target="_blank" rel="noopener noreferrer">American Psychological Association (APA)</a> - Informações sobre psicologia e saúde mental.</li>
+                        <li><a href="https://www.nami.org/" target="_blank" rel="noopener noreferrer">NAMI</a> - Apoio e educação para pessoas afetadas por doenças mentais.</li>
+                        <li><a href="https://www.mind.org.uk/" target="_blank" rel="noopener noreferrer">Mind (UK)</a> - Informação e suporte sobre saúde mental.</li>
+                        <li><a href="https://www.verywellmind.com/" target="_blank" rel="noopener noreferrer">Verywell Mind</a> - Conteúdo acessível sobre uma variedade de tópicos de saúde mental.</li>
+                        <li><a href="https://ggsc.berkeley.edu/" target="_blank" rel="noopener noreferrer">Greater Good Science Center</a> - Pesquisa sobre felicidade, compaixão e altruísmo.</li>
+                        <li><a href="https://www.bbrfoundation.org/" target="_blank" rel="noopener noreferrer">Brain & Behavior Research Foundation</a> - Financiamento de pesquisa em saúde mental.</li>
+                        <li><a href="https://mhanational.org/" target="_blank" rel="noopener noreferrer">Mental Health America (MHA)</a> - Ferramentas de triagem e defesa de políticas.</li>
+                        <li><a href="https://self-compassion.org/" target="_blank" rel="noopener noreferrer">Self-Compassion.org</a> - Recursos da Dra. Kristin Neff sobre autocompaixão.</li>
+                    </ul>
+                </details>
                 <div style="margin-top: 25px;">
-                     <button class="standard-button" data-page="leitura-guia-mental">
+                    <button class="standard-button" data-page="leitura-guia-mental">
                         <i class="fas fa-book-open"></i> Aprofundamento
                     </button>
                 </div>
             </section>
             
             <!-- Card 2: DO -->
-            <section class="content-section">
+            <section id="do-section" class="content-section">
                 <h2 class="section-title">Do</h2>
                 <div id="metas-mentais" class="form-section">
                     <ul id="mental-metas-list" class="lista-planejamento"></ul>
                     <form id="mental-metas-form" style="margin-top: 20px;">
-                        <div class="input-wrapper">
+                        <div class="input-wrapper has-multiple-btns">
                             <input type="text" id="mental-meta-input" required placeholder="Adicionar nova rotina personalizada...">
-                            <button type="button" id="mental-meta-input-ai-btn" class="ai-suggestion-btn" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                            <button type="button" class="ai-suggestion-btn" title="Sugerir Meta com IA"><i class="fas fa-wand-magic-sparkles"></i></button>
+                            <button type="button" class="speech-to-text-btn" title="Digitar por Voz"><i class="fas fa-microphone"></i></button>
                         </div>
                         <button type="submit" class="standard-button">Adicionar</button>
                     </form>
                 </div>
             </section>
-            
-             <!-- Card 3: CHECK -->
-            <section id="mental-reflection-section" class="content-section reflection-section">
-                <h2 class="section-title">Check / Reflexão</h2>
-                <p>Reflita sobre sua saúde mental e seu estado emocional hoje.</p>
-                
-                <div class="form-group">
-                    <label for="reflection-clareza">Clareza Mental</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-clareza" data-key="clarezaMental" rows="3" placeholder="Hoje, minha mente esteve... (clara, confusa, agitada). O que influenciou esse estado?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-clareza" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="reflection-estresse">Nível de Estresse/Ansiedade</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-estresse" data-key="nivelEstresse" rows="3" placeholder="Meu nível de estresse hoje foi... Quais foram os gatilhos e como eu lidei com eles?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-estresse" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+            <!-- Card 3: CHECK / ADJUST -->
+            <section class="content-section reflection-section">
+                <h2 class="section-title">Check / Adjust</h2>
+                <form class="reflection-form" data-category="Mental">
+                    <div class="form-group">
+                        <label for="reflection-mental-sleep">Como dormi esta noite? (Qualidade, sonhos, sentimentos ao acordar)</label>
+                        <textarea id="reflection-mental-sleep" class="reflection-input" data-title="Reflexão do Sono"></textarea>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reflection-emocoes">Qualidade das Emoções</label>
-                    <div class="input-wrapper textarea-wrapper">
-                        <textarea id="reflection-emocoes" data-key="qualidadeEmocoes" rows="3" placeholder="A emoção predominante hoje foi... O que posso aprender com ela?"></textarea>
-                        <button type="button" class="ai-suggestion-btn" data-target="reflection-emocoes" title="Sugerir com IA"><i class="fas fa-wand-magic-sparkles"></i><i class="fas fa-spinner fa-spin"></i></button>
+                    <div class="form-group">
+                        <label for="reflection-mental-dayReview">O que correu bem hoje? O que poderia ter feito melhor? (Análise do dia)</label>
+                        <textarea id="reflection-mental-dayReview" class="reflection-input" data-title="Análise do Dia"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="reflection-mental-bodyScan">Como me sinto no meu corpo agora? (Sensações, tensões, energia)</label>
+                        <textarea id="reflection-mental-bodyScan" class="reflection-input" data-title="Escaneamento Corporal"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflection-mental-mentalCheck">Que pensamentos ou emoções estão presentes? (Check-in mental)</label>
+                        <textarea id="reflection-mental-mentalCheck" class="reflection-input" data-title="Check-in Mental"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reflection-mental-premeditation">O que posso enfrentar hoje/amanhã? O que está fora do meu controle? (Premeditatio Malorum)</label>
+                        <textarea id="reflection-mental-premeditation" class="reflection-input" data-title="Premeditatio Malorum"></textarea>
+                    </div>
+                    <button type="submit" class="standard-button"><i class="fas fa-save"></i> Salvar Reflexões</button>
+                </form>
             </section>
         </main>
         <div class="back-button-wrapper">
