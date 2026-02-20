@@ -8,7 +8,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 
     // Get all .html files from the public directory to include them in the build
     const publicDir = path.resolve(__dirname, 'public');
-    const htmlFiles = fs.existsSync(publicDir) ? fs.readdirSync(publicDir).filter(file => file.endsWith('.html')) : [];
+    const htmlFiles = fs.readdirSync(publicDir).filter(file => file.endsWith('.html'));
     
     // Map them to their paths for rollup input
     const inputFiles: { [key: string]: string } = {
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, './src'),
+          '@': path.resolve(__dirname, './'),
         }
       },
       build: {
@@ -37,6 +37,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         rollupOptions: {
           input: inputFiles,
           output: {
+            // Keep the original filenames for HTML files in the root of dist
             entryFileNames: `assets/[name]-[hash].js`,
             chunkFileNames: `assets/[name]-[hash].js`,
             assetFileNames: `assets/[name]-[hash].[ext]`,
