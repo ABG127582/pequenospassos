@@ -22,6 +22,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 
     return {
       base: './',
+      root: './', // Ensure root is current directory
       plugins: [basicSsl()],
       define: {
         'process.env.API_KEY': JSON.stringify(env.API_KEY),

@@ -4,6 +4,7 @@
 
 // Import core application services
 import { initRouter, pageModuleImports } from './router';
+import '../index.css';
 import { ttsReader } from './tts';
 import { setupModals, openContractModal } from './modals';
 import { showToast, startSpeechRecognition, confirmAction, trapFocus } from './utils';
