@@ -17,6 +17,8 @@ export const pageModuleImports: { [key: string]: () => Promise<any> } = {
     'sono': () => import('./sono'),
     'alongamento': () => import('./alongamento'),
     'alimentacao-forte': () => import('./alimentacao-forte'),
+    'pdca-fisica-estresse': () => import('./pdca-fisica-estresse'),
+    'pdca-financeira-orcamento': () => import('./pdca-financeira-orcamento'),
     'food-alho': () => import('./food-alho'),
     'food-brocolis': () => import('./food-brocolis'),
     'food-gengibre': () => import('./food-gengibre'),
@@ -40,6 +42,8 @@ const pageHierarchy: { [key: string]: { parent: string | null; title: string } }
     'sono': { parent: 'mental', title: 'Qualidade do Sono' },
     'alongamento': { parent: 'fisica', title: 'Alongamento' },
     'alimentacao-forte': { parent: 'fisica', title: 'Alimentação Forte' },
+    'pdca-fisica-estresse': { parent: 'fisica', title: 'Gestão de Estresse Físico' },
+    'pdca-financeira-orcamento': { parent: 'financeira', title: 'Orçamento Financeiro' },
 };
 
 export function initRouter() {

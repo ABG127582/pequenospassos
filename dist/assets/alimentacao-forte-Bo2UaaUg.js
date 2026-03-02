@@ -1,0 +1,1 @@
+function e(){if(!document.getElementById("page-alimentacao-forte")){console.warn("Alimentação Forte page container not found.");return}}function t(){const n=document.getElementById("main-content");n&&(n.scrollTop=0)}export{e as setup,t as show};
