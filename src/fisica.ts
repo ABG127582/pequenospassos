@@ -47,15 +47,28 @@ const handleActionHubClick = (e: Event) => {
 };
 
 const calculateHydration = () => {
-    if (!elements.hydrationInput || !elements.hydrationResult) return;
+    if (!elements.pageContainer || !elements.hydrationInput || !elements.hydrationResult) return;
+    
     const weight = parseFloat(elements.hydrationInput.value);
     if (isNaN(weight) || weight <= 0) {
         elements.hydrationResult.textContent = '0 ml';
         window.showToast('Por favor, insira um peso válido.', 'warning');
         return;
     }
-    const hydrationMl = Math.round(weight * 35);
+
+    // Check if "Ativo" or "Treino" is selected
+    const isActive = elements.pageContainer.querySelector<HTMLInputElement>('#activity-active')?.checked || 
+                     elements.pageContainer.querySelector<HTMLInputElement>('#activity-training')?.checked;
+    
+    // Base: 35ml/kg for sedentary, 45ml/kg for active/training
+    const factor = isActive ? 45 : 35;
+    const hydrationMl = Math.round(weight * factor);
+    
     elements.hydrationResult.textContent = `${hydrationMl} ml`;
+    
+    if (isActive) {
+        window.showToast(`Meta ajustada para perfil ativo: ${hydrationMl}ml`, 'info');
+    }
 };
 
 function setupReflectionForm() {
