@@ -87,8 +87,21 @@
                                     <li>Importância da água para processos metabólicos e cognitivos.</li>
                                     <li>Calculadora de Hidratação Diária: <span id="hydration-result" style="font-weight: bold;"></span>
                                         <div class="hydration-calculator-inline">
-                                            <input type="number" id="weight-input" placeholder="Seu peso (kg)" style="width: 120px; margin-left: 5px;">
-                                            <button id="calculate-hydration-btn" class="small-button" style="margin-left: 5px;">Calcular</button>
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <input type="number" id="weight-input" placeholder="Peso (kg)">
+                                                <button id="calculate-hydration-btn">Calcular Meta</button>
+                                            </div>
+                                            <div class="activity-options">
+                                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                                    <input type="radio" name="activity-level" id="activity-sedentary" checked> Sedentário
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                                    <input type="radio" name="activity-level" id="activity-active"> Ativo
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                                    <input type="radio" name="activity-level" id="activity-training"> Treino/Calor
+                                                </label>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
