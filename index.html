@@ -58,6 +58,75 @@
             gap: 15px;
             font-size: 0.9em;
         }
+
+        /* Estilos do Dashboard (Cartões) */
+        .inicio {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .saude-card {
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .saude-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .card-icon-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .card-icon-title i {
+            font-size: 1.8rem;
+            width: auto !important;
+            height: auto !important;
+        }
+        .card-icon-title h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .saude-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Cores dos Cartões */
+        .saude-card.fisica { background: linear-gradient(135deg, #20C960, #158a42); }
+        .saude-card.mental { background: linear-gradient(135deg, #28B4FF, #1a7ab3); }
+        .saude-card.financeira { background: linear-gradient(135deg, #FFD700, #b39700); color: #333 !important; }
+        .saude-card.familiar { background: linear-gradient(135deg, #E53935, #9e2725); }
+        .saude-card.profissional { background: linear-gradient(135deg, #008080, #005959); }
+        .saude-card.social { background: linear-gradient(135deg, #A060FF, #6e42b3); }
+        .saude-card.espiritual { background: linear-gradient(135deg, #8A2BE2, #5f1e9c); }
+        .saude-card.preventiva { background: linear-gradient(135deg, #005F57, #00423d); }
+        .saude-card.video-livro { background: linear-gradient(135deg, #FF0000, #b30000); }
+        .saude-card.avaliacao-card { background: linear-gradient(135deg, #4a90e2, #357abd); }
+
+        /* Ajuste para ícones dentro dos cartões não serem afetados pela regra de 24px */
+        .card-icon-title i {
+            width: auto !important;
+            height: auto !important;
+            max-width: none !important;
+            max-height: none !important;
+        }
     </style>
     <script type="module" crossorigin src="./assets/main-DEM_25qw.js"></script>
 </head>
